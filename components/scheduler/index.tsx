@@ -99,6 +99,7 @@ const InlineEditing = () => {
         eventEnd = new Date(data[0]?.EndTime || data.endTime || data.EndTime);
         resourceGroupId = data[0]?.GroupId || data.GroupId || data.groupId;
         // Prevent operations on past events
+        console.log(data, "data")
         if (eventStart < now) {
           args.cancel = true;
           alert("Operations on past events are not allowed.");
