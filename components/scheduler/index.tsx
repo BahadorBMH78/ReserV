@@ -16,6 +16,9 @@ import {
   NavigatingEventArgs,
   ActionEventArgs,
   Day,
+  PopupOpenEventArgs,
+  DragEventArgs,
+  CellClickEventArgs
 } from "@syncfusion/ej2-react-schedule";
 import { extend } from "@syncfusion/ej2-base";
 import dataSource from "./datasource.json";
@@ -38,7 +41,7 @@ const InlineEditing = () => {
       null,
       true
     ) as Record<string, any>[]
-  ); // Use an integer as key
+  );
 
   const scheduleRef = useRef<any>(null);
 
@@ -47,7 +50,6 @@ const InlineEditing = () => {
     console.log(currentTime, "currentTime");
     setSelectedDate(currentTime);
     if (scheduleRef.current) {
-      // Assuming you want to scroll to the current time
       const timeString = moment(currentTime).format("HH:mm");
       scheduleRef.current.scrollTo(timeString);
     }
@@ -56,7 +58,6 @@ const InlineEditing = () => {
   useEffect(() => {
     if (scheduleRef.current) {
       const currentTime = new Date(moment().tz("Asia/Tehran").toDate());
-      // Format currentTime to "HH:mm" string
       const timeString = moment(currentTime).format("HH:mm");
       console.log(timeString, "timeString");
       scheduleRef.current.scrollTo(timeString);
@@ -86,7 +87,7 @@ const InlineEditing = () => {
 
   const onActionBegin = (args: ActionEventArgs) => {
     const { requestType, data }: any = args;
-    const now = new Date(moment().tz("Asia/Tehran").toDate()); // Ensure conversion to Date
+    const now = new Date(moment().tz("Asia/Tehran").toDate());
     let eventStart, eventEnd, resourceGroupId;
 
     switch (requestType) {
@@ -98,8 +99,7 @@ const InlineEditing = () => {
         );
         eventEnd = new Date(data[0]?.EndTime || data.endTime || data.EndTime);
         resourceGroupId = data[0]?.GroupId || data.GroupId || data.groupId;
-        // Prevent operations on past events
-        console.log(data, "data")
+
         if (eventStart < now) {
           args.cancel = true;
           alert("Operations on past events are not allowed.");
@@ -112,7 +112,6 @@ const InlineEditing = () => {
             StartTime: data[0].StartTime,
             EndTime: data[0].EndTime,
           };
-          console.log(data[0], "data[0]");
           let flag;
           events.map((item: any) => {
             item1 = {
@@ -122,20 +121,15 @@ const InlineEditing = () => {
             flag = checkOverlap(item1, item2);
             if (flag) {
               if (data[0].TaskId === item.TaskId) {
-                console.log("ooooooooo");
                 args.cancel = true;
                 alert(
                   "This time slot is not available for the selected person."
                 );
               }
-            } else {
-              console.log("asdasd");
             }
           });
         }
 
-        // console.log(check, "check");
-        // Check availability only within the same resource group
         if (
           !scheduleRef.current.isSlotAvailable(
             eventStart,
@@ -162,24 +156,14 @@ const InlineEditing = () => {
                 data.Id !== item.Id &&
                 requestType === "eventChange"
               ) {
-                console.log(data, item);
                 args.cancel = true;
                 alert(
                   "This time slot is not available for the selected person."
                 );
                 return;
               }
-            } else {
-              console.log("asdasd");
-              return;
             }
-            return;
           });
-          // console.log(resourceGroupId);
-          // console.log("Slot not available for:", resourceGroupId);
-          // args.cancel = true;
-          // alert("This time slot is not available for the selected person.");
-          // return;
         }
         break;
 
@@ -192,7 +176,6 @@ const InlineEditing = () => {
     const { data } = args;
     const now = new Date(moment().tz("Asia/Tehran").format());
     let eventStart = data.StartTime || data.startTime;
-    console.log(args, "args");
     if (eventStart < now) {
       args.element.classList.add("e-event-disabled");
     }
@@ -213,25 +196,55 @@ const InlineEditing = () => {
     setCurrentView(args.currentView as View);
   };
 
+  const onPopupOpen = (args: PopupOpenEventArgs): void => {
+    if (args.type === "QuickInfo" || args.type === "Editor") {
+      args.cancel = true;
+    }
+  };
+
+  const onDragStart = (args: DragEventArgs): void => {
+    if (!args.data || !args.data.StartTime || !args.data.EndTime) {
+      args.cancel = true;
+    }
+  };
+
+  const onCellDoubleClick = (args: CellClickEventArgs): void => {
+    console.log("sad")
+  };
+
+  const onEventClick = (args: CellClickEventArgs): void => {
+    console.log("llllllllllllllllllll")
+  };
+
+  const onEventDoubleClick = (args: CellClickEventArgs): void => {
+    console.log("onEventDoubleClick")
+  };
+
+  const cellClick = (args: CellClickEventArgs): void => {
+    console.log("cellClick")
+  };
+  const moreEventsClick = (args: CellClickEventArgs): void => {
+    console.log("moreEventsClick")
+  };
+
   const eventTemplate = (props: any) => (
-    <div>
+    <div className="flex flex-col w-full items-start">
       <div>{props.Subject}</div>
       <button onClick={() => deleteEvent(props.Id)}>Delete</button>
     </div>
   );
 
   const deleteEvent = (eventId: any) => {
-    const newData = events.filter((item: any) => item.Id !== eventId);
-    // setData(newData);
+    setEvents(events.filter((item: any) => item.Id !== eventId));
   };
-  console.log(events, "data");
+
   return (
     <div className="schedule-control-section">
       <div className="col-lg-12 control-section">
-        <div className="control-wrapper">
+        <div className="control-wrapper drag-sample-wrapper">
           <ScheduleComponent
-            // key={refreshKey}
-            className=""
+            showTimeIndicator
+            timeFormat="HH:mm"
             ref={scheduleRef}
             width="100%"
             height="500px"
@@ -245,7 +258,14 @@ const InlineEditing = () => {
             eventRendered={onEventRendered}
             actionBegin={onActionBegin}
             navigating={onNavigating}
-            timeScale={{ slotCount: 4 }} // Set time scale to 10 minutes
+            popupOpen={onPopupOpen}
+            dragStart={onDragStart}
+            cellDoubleClick={onCellDoubleClick}
+            eventClick={onEventClick}
+            timeScale={{ slotCount: 6 }}
+            eventDoubleClick={onEventDoubleClick}
+            cellClick={cellClick}
+            moreEventsClick={moreEventsClick}
           >
             <ResourcesDirective>
               <ResourceDirective
@@ -260,7 +280,7 @@ const InlineEditing = () => {
               />
             </ResourcesDirective>
             <ViewsDirective>
-              <ViewDirective option="TimelineDay" showTimeIndicator={true} />
+              <ViewDirective option="TimelineDay" />
             </ViewsDirective>
             <Inject services={[TimelineViews, Day, DragAndDrop, Resize]} />
           </ScheduleComponent>
