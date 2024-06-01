@@ -50,7 +50,7 @@ const LoginForm = () => {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-[30px] w-full">
+      <div className="mt-[35px] bottom-[30px] w-full">
         <PrimaryBtn title="ورود" />
       </div>
     </div>

@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: 'class',
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -19,8 +19,15 @@ const config: Config = {
         secondary: "#3a414f",
         tertiary: "rgba(0, 0, 0, 0.5)",
         teal: "#1fc2d1",
-        bluePrimary: "rgba(35, 108, 255, 1)"
-      }
+        bluePrimary: "rgba(35, 108, 255, 1)",
+        bulutBrand500: "#236cff",
+        grayText: "#4b4b4b",
+        baseWhite: "#fff",
+        warning100: "#FEEFC7",
+        warning600: "#dc6803",
+        dark_gray700: "#333741",
+        dark_gray600: "#61646c",
+      },
     },
   },
   plugins: [],

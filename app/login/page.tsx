@@ -5,8 +5,8 @@ import LoginForm from "@/components/login";
 
 const Login = () => {
   return (
-    <main className="flex justify-center w-full relative h-full">
-      <div className="max-w-[450px] w-full flex flex-col items-center">
+    <main className="flex justify-center w-full relative h-[calc(100svh-64px)]">
+      <div className="max-w-[450px] w-full flex flex-col items-center h-full">
         <Image src={Vector} className="mt-0" alt="bulut" />
         <LoginForm />
       </div>

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header";
+import Menu from "@/components/menu";
 import "react-modern-drawer/dist/index.css";
 import { Providers } from "./providers";
+import 'react-responsive-modal/styles.css';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,10 +19,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head></head>
-      <body className="p-[24px]">
+      <body>
         <Providers>
           <Header />
-          {children}
+          <main className="px-[24px] py-[32px] flex-1 overflow-auto">
+            {children}
+          </main>
+          <Menu />
         </Providers>
       </body>
     </html>

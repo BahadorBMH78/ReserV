@@ -5,63 +5,63 @@
 
 @font-face {
   font-family: "Kalameh";
-  src: url('/fonts/KalamehWeb-Thin.woff2') format('woff2');
+  src: url("/fonts/KalamehWebFaNum-Thin.woff2") format("woff2");
   font-weight: 100;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Kalameh";
-  src: url('/fonts/KalamehWeb-ExtraLight.woff2') format('woff2');
+  src: url("/fonts/KalamehWebFaNum-ExtraLight.woff2") format("woff2");
   font-weight: 200;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Kalameh";
-  src: url('/fonts/KalamehWeb-Light.woff2') format('woff2');
+  src: url("/fonts/KalamehWebFaNum-Light.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Kalameh";
-  src: url('/fonts/KalamehWeb-Regular.woff2') format('woff2');
+  src: url("/fonts/KalamehWebFaNum-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Kalameh";
-  src: url('/fonts/KalamehWeb-Medium.woff2') format('woff2');
+  src: url("/fonts/KalamehWebFaNum-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Kalameh";
-  src: url('/fonts/KalamehWeb-SemiBold.woff2') format('woff2');
+  src: url("/fonts/KalamehWeb-SemiBold.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Kalameh";
-  src: url('/fonts/KalamehWeb-Bold.woff2') format('woff2');
+  src: url("/fonts/KalamehWeb-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Kalameh";
-  src: url('/fonts/KalamehWeb-ExtraBold.woff2') format('woff2');
+  src: url("/fonts/KalamehWeb-ExtraBold.woff2") format("woff2");
   font-weight: 800;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Kalameh";
-  src: url('/fonts/KalamehWeb-Black.woff2') format('woff2');
+  src: url("/fonts/KalamehWeb-Black.woff2") format("woff2");
   font-weight: 900;
   font-style: normal;
 }
@@ -74,204 +74,6 @@ body {
 .rtl {
   direction: rtl;
 }
-.neonText {
-  font-family: Sacramento, cursive !important;
-  font-weight: 400;
-  font-style: normal;
-  display: flex;
-  align-items: center;
-  color: #fff;
-  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #1fc2d1,
-    0 0 82px #1fc2d1, 0 0 92px #1fc2d1, 0 0 102px #1fc2d1, 0 0 151px #1fc2d1;
-
-  font-size: 40px;
-  animation: pulsate 1.5s infinite alternate;
-  border: 0.2rem solid #fff;
-  border-radius: 20px;
-  /* padding: 0.4em; */
-  padding: 8px 10px 8px 10px;
-  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #1fc2d1,
-    0 0 0.8rem #1fc2d1, 0 0 2.8rem #1fc2d1, inset 0 0 1.3rem #1fc2d1;
-}
-
-h1,
-h2 {
-  text-align: center;
-  font-weight: 400;
-}
-
-@keyframes pulsate {
-  100% {
-    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #1fc2d1,
-      0 0 80px #1fc2d1, 0 0 90px #1fc2d1, 0 0 100px #1fc2d1, 0 0 150px #1fc2d1;
-  }
-  0% {
-    text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #fff, 0 0 10px #1fc2d1,
-      0 0 45px #1fc2d1, 0 0 55px #1fc2d1, 0 0 70px #1fc2d1, 0 0 80px #1fc2d1;
-  }
-}
-
-.login-box {
-  width: 100%;
-  padding: 40px;
-  background: rgba(0, 0, 0, 0.5);
-  box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
-}
-
-.login-box h2 {
-  margin: 0 0 30px;
-  padding: 0;
-  color: #fff;
-  text-align: center;
-}
-
-.login-box .user-box {
-  position: relative;
-}
-
-.login-box .user-box input {
-  width: 100%;
-  padding: 10px 0;
-  font-size: 16px;
-  color: #fff;
-  margin-bottom: 30px;
-  border: none;
-  border-bottom: 1px solid #fff;
-  outline: none;
-  background: transparent;
-}
-
-.login-box .user-box label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 10px 0;
-  font-size: 16px;
-  color: #fff;
-  pointer-events: none;
-  transition: 0.5s;
-}
-
-.login-box .user-box input:focus ~ label,
-.login-box .user-box input:active ~ label,
-.login-box .user-box input:valid ~ label {
-  top: -20px;
-  left: 0;
-  color: #1fc2d1;
-  font-size: 12px;
-}
-
-.login-box button {
-  position: relative;
-  display: inline-block;
-  padding: 10px 20px;
-  color: #1fc2d1;
-  font-size: 16px;
-  text-decoration: none;
-  text-transform: uppercase;
-  overflow: hidden;
-  transition: 0.5s;
-  margin-top: 40px;
-  letter-spacing: 4px;
-}
-
-.login-box button:hover {
-  background: #1fc2d1;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #1fc2d1, 0 0 25px #1fc2d1, 0 0 50px #1fc2d1,
-    0 0 100px #1fc2d1;
-}
-
-.login-box button span {
-  position: absolute;
-  display: block;
-}
-
-.login-box button span:nth-child(1) {
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #1fc2d1);
-  animation: btn-anim1 1s linear infinite;
-}
-
-@keyframes btn-anim1 {
-  0% {
-    left: -100%;
-  }
-  50%,
-  100% {
-    left: 100%;
-  }
-}
-
-.login-box button span:nth-child(2) {
-  top: -100%;
-  right: 0;
-  width: 2px;
-  height: 100%;
-  background: linear-gradient(180deg, transparent, #1fc2d1);
-  animation: btn-anim2 1s linear infinite;
-  animation-delay: 0.25s;
-}
-
-@keyframes btn-anim2 {
-  0% {
-    top: -100%;
-  }
-  50%,
-  100% {
-    top: 100%;
-  }
-}
-
-.login-box button span:nth-child(3) {
-  bottom: 0;
-  right: -100%;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(270deg, transparent, #1fc2d1);
-  animation: btn-anim3 1s linear infinite;
-  animation-delay: 0.5s;
-}
-
-@keyframes btn-anim3 {
-  0% {
-    right: -100%;
-  }
-  50%,
-  100% {
-    right: 100%;
-  }
-}
-
-.login-box button span:nth-child(4) {
-  bottom: -100%;
-  left: 0;
-  width: 2px;
-  height: 100%;
-  background: linear-gradient(360deg, transparent, #1fc2d1);
-  animation: btn-anim4 1s linear infinite;
-  animation-delay: 0.75s;
-}
-
-@keyframes btn-anim4 {
-  0% {
-    bottom: -100%;
-  }
-  50%,
-  100% {
-    bottom: 100%;
-  }
-}
-
-.fui-avatar-main-container:hover .fui-avatar-label.hide {
-  opacity: 0;
-}
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -279,39 +81,18 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.css-bbiqrn-Box {
-  width: 50px !important;
+.main_height {
+  height: calc(100svh - 307px);
 }
 
-.st0 {
-  fill-rule: evenodd;
-  clip-rule: evenodd;
-}
-.EZDrawer {
-  display: none !important;
+.fui-avatar-label {
+  font-family: "Kalameh" !important;
+  font-size: 12px !important;
 }
 
-@media only screen and (max-width: 768px) {
-  .EZDrawer {
-    display: flex !important;
-  }
-  .neonText {
-    font-family: Sacramento, cursive !important;
-    font-weight: 400;
-    font-style: normal;
-    display: flex;
-    align-items: center;
-    color: #fff;
-    text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #1fc2d1,
-      0 0 82px #1fc2d1, 0 0 92px #1fc2d1, 0 0 102px #1fc2d1, 0 0 151px #1fc2d1;
-  
-    font-size: 18px;
-    animation: pulsate 1.5s infinite alternate;
-    border: 0.2rem solid #fff;
-    border-radius: 20px;
-    /* padding: 0.4em; */
-    padding: 8px 10px 8px 10px;
-    box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #1fc2d1,
-      0 0 0.8rem #1fc2d1, 0 0 2.8rem #1fc2d1, inset 0 0 1.3rem #1fc2d1;
-  }
+.react-responsive-modal-modal {
+  border-radius: 6px;
+  width: 100%;
+  max-width: 300px !important;
+  height: 400px;
 }
