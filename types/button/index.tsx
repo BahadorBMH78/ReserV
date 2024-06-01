@@ -1,4 +1,4 @@
-
 export type BtnType = {
-    title: string;
-}
+  title: string;
+  onClick: () => void;
+};

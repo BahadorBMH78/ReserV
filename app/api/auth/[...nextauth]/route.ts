@@ -15,7 +15,7 @@ const authOptions: NextAuthOptions = {
         // Simulate loading state
         // You can show a loading spinner here
         // await new Promise((resolve) => setTimeout(resolve, 2000));
-        const response = await fetch("https://dummyjson.com/auth/login", {
+        const response = await fetch("http://localhost:5000/users/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -38,6 +38,9 @@ const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt",
+  },
+  pages: {
+    signIn: '/login',
   },
   callbacks: {
     session: async (session: any) => {
