@@ -10,6 +10,7 @@ import Arrow from "@/public/arrow.svg";
 import Switch from "react-switch";
 import Link from "next/link";
 import { Modal } from "react-responsive-modal";
+import { signOut } from "next-auth/react";
 
 const Profile = () => {
   const [imageSource, setImageSource] = useState<
@@ -73,15 +74,17 @@ const Profile = () => {
             </div>
             <Image src={Arrow} alt="arrow" />
           </div> */}
-          <Link className="contents" href="/login">
-            <div className="flex justify-between  items-center h-[48px] gap-[8px] w-full rounded-[6px] bg-[#f3f3f3] py-[12px] px-[16px] rtl">
-              <div className="flex items-center gap-[8px]">
-                <Image src={Logout} alt="sun" />
-                <p className="font-[400] text-dark_gray600">خروج از حساب</p>
-              </div>
-              <Image src={Arrow} alt="arrow" />
+
+          <div
+            className="flex justify-between  items-center h-[48px] gap-[8px] w-full rounded-[6px] bg-[#f3f3f3] py-[12px] px-[16px] rtl"
+            onClick={() => signOut({ callbackUrl: "/login", redirect: true })}
+          >
+            <div className="flex items-center gap-[8px]">
+              <Image src={Logout} alt="sun" />
+              <p className="font-[400] text-dark_gray600">خروج از حساب</p>
             </div>
-          </Link>
+            <Image src={Arrow} alt="arrow" />
+          </div>
         </div>
       </div>
     </div>

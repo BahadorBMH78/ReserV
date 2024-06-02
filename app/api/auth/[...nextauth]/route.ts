@@ -27,7 +27,10 @@ const authOptions: NextAuthOptions = {
         });
 
         const data = await response.json();
+
         if (data) {
+          console.log(data, "datatatatatatat");
+          // console.log(data, "datadatadata")
           // Simulate success state
           return data;
         }
@@ -39,12 +42,23 @@ const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  pages: {
-    signIn: '/login',
-  },
   callbacks: {
-    session: async (session: any) => {
-      if (!session) return;
+    async jwt({ token, user }: any) {
+      if (user) {
+        token.id = user.user.id;
+        token.username = user.user.username;
+        token.token = user.token; // Attach the JWT token to the token object
+      }
+      return token;
+    },
+    async session({ session, token }: any) {
+      if (token) {
+        session.user = {
+          id: token.id,
+          username: token.username,
+          token: token.token,
+        }; // Attach the user information to the session object
+      }
       return session;
     },
   },

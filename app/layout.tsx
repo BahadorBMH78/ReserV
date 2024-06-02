@@ -6,7 +6,10 @@ import "react-modern-drawer/dist/index.css";
 import { Providers } from "./providers";
 import "react-responsive-modal/styles.css";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,16 +21,21 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
-  console.log(session, "session")
+  const session: any = await getServerSession(authOptions);
   return (
     <html lang="en" suppressHydrationWarning>
       <head></head>
       <body>
-        <Providers>
+        <Providers session={session}>
           <Header />
           <main className="px-[24px] py-[32px] flex-1 overflow-auto">
             {children}
+            <ToastContainer
+              closeButton={false}
+              hideProgressBar
+              position="top-center"
+              rtl
+            />
           </main>
           <Menu />
         </Providers>
