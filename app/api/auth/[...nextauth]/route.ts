@@ -25,7 +25,9 @@ const authOptions: NextAuthOptions = {
             password: credentials.password,
           }),
         });
-
+        if(!response.ok) {
+          return null
+        }
         const data = await response.json();
 
         if (data) {
@@ -61,6 +63,10 @@ const authOptions: NextAuthOptions = {
       }
       return session;
     },
+  },
+  pages: {
+    signIn: '/login',
+    // error: '/error', // Custom error page
   },
 };
 

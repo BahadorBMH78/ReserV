@@ -25,7 +25,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head></head>
-      <body>
+      <body className="bg-white dark:bg-black">
         <Providers session={session}>
           <Header />
           <main className="px-[24px] py-[32px] flex-1 overflow-auto">

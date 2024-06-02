@@ -27,9 +27,11 @@ const config: Config = {
         warning600: "#dc6803",
         dark_gray700: "#333741",
         dark_gray600: "#61646c",
+        grayIron50: "#fafafa",
         toastErrorBg: "#fee4e2",
         toastErrorText: "#0c111d",
-        toastErrorBorder: "#f04438"
+        toastErrorBorder: "#f04438",
+        error600: "#d92d20"
       },
     },
   },

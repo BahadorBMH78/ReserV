@@ -13,11 +13,11 @@ const Menu = () => {
   const qrScanner = open ? <QRScanner show={open} /> : null;
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
-  if (path === "/login") {
+  if (path === "/login" || path === "/error") {
     return null;
   }
   return (
-    <footer className="flex-shrink-0 flex absolute justify-between text-black bg-baseWhite w-full bottom-0 shadow-[0px_-2px_6px_0px_rgba(0,0,0,0.25)] h-[48px] rounded-[10px_10px_0px_0px] py-[10px] px-[24px]">
+    <footer className="flex-shrink-0 flex absolute justify-between text-black dark:bg-[#161b26] bg-baseWhite w-full bottom-0 shadow-[0px_-2px_6px_0px_rgba(0,0,0,0.25)] h-[48px] rounded-[10px_10px_0px_0px] py-[10px] px-[24px]">
       <Link className="contents" href="/">
         <div className="flex flex-col justify-end items-center relative">
           <div
@@ -51,7 +51,13 @@ const Menu = () => {
         closeIcon={false}
         showCloseIcon={false}
       >
-        <Rodal width={280} visible={open} onClose={onCloseModal} animation="zoom" className="w-full">
+        <Rodal
+          width={280}
+          visible={open}
+          onClose={onCloseModal}
+          animation="zoom"
+          className="w-full"
+        >
           {qrScanner}
         </Rodal>
       </Modal>
