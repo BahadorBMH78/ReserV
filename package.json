@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@files-ui/react": "^1.2.4",
+    "@yudiel/react-qr-scanner": "^2.0.1",
     "moment-jalaali": "^0.10.0",
     "moment-timezone": "^0.5.45",
     "next": "14.2.3",
