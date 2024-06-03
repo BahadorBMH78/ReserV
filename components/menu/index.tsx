@@ -3,8 +3,9 @@ import { usePathname } from "next/navigation";
 import { Qr, Home, Profile } from "./svg";
 import Link from "next/link";
 import { Modal } from "react-responsive-modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
+import eruda from 'eruda';
 
 const Menu = () => {
   const [open, setOpen] = useState(false);
@@ -12,6 +13,10 @@ const Menu = () => {
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
+
+  useEffect(() => {
+    eruda.init()
+  }, [])
 
   if (path === "/login" || path === "/error") {
     return null;
@@ -54,7 +59,14 @@ const Menu = () => {
         closeIcon={false}
         showCloseIcon={false}
       >
-        <Scanner onScan={(result) => console.log(result)} />
+        <div className="w-full h-full flex fle-col items-center justify-center" id="qrContainer">
+          <Scanner
+            constraints={{ facingMode: "environment" }}
+            scanDelay={2000}
+            onScan={(result) => console.log(result)}
+            styles={{video: { border: "5px solid red"}}}
+          />
+        </div>
       </Modal>
     </footer>
   );

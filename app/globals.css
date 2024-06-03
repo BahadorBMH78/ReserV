@@ -93,7 +93,8 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 6px;
   width: 100%;
   max-width: 300px !important;
-  height: 400px;
+  height: 100%;
+  max-height: 300px;
 }
 
 .Toastify__toast {
@@ -129,3 +130,15 @@ input[type="number"]::-webkit-outer-spin-button {
 .Toastify__toast.Toastify__toast-theme--light.Toastify__toast--default.Toastify__toast--rtl {
   background: transparent !important;
 }
+
+#qrContainer svg {
+  border: 35px solid transparent !important;
+}
+
+#qrContainer path {
+  stroke: #fff;
+}
+/* 
+html.dark #qrContainer path {
+  stroke: #fff !important;
+} */
