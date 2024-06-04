@@ -4,19 +4,25 @@ import { Qr, Home, Profile } from "./svg";
 import Link from "next/link";
 import { Modal } from "react-responsive-modal";
 import { useEffect, useState } from "react";
-import { Scanner } from "@yudiel/react-qr-scanner";
-import eruda from 'eruda';
+import { Scanner, IDetectedBarcode } from "@yudiel/react-qr-scanner";
+import eruda from "eruda";
 
-const Menu = () => {
+const Menu = ({ session }: any) => {
   const [open, setOpen] = useState(false);
   const path = usePathname();
-
+  console.log(session, "session");
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
+  const onResult = (result: Array<IDetectedBarcode>) => {
+    if (result[0].rawValue === "http://localhost:5000/seats/reserve") {
+      setOpen(false);
+    }
+  };
+
   useEffect(() => {
-    eruda.init()
-  }, [])
+    eruda.init();
+  }, []);
 
   if (path === "/login" || path === "/error") {
     return null;
@@ -59,12 +65,14 @@ const Menu = () => {
         closeIcon={false}
         showCloseIcon={false}
       >
-        <div className="w-full h-full flex fle-col items-center justify-center" id="qrContainer">
+        <div
+          className="w-full h-full flex fle-col items-center justify-center"
+          id="qrContainer"
+        >
           <Scanner
             constraints={{ facingMode: "environment" }}
             scanDelay={2000}
-            onScan={(result) => console.log(result)}
-            styles={{video: { border: "5px solid red"}}}
+            onScan={(result) => onResult(result)}
           />
         </div>
       </Modal>

@@ -2,8 +2,20 @@
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0, // retry after 3times error
+      suspense: false,
+      cacheTime: 0, // 1 day cache time
+      staleTime: Infinity,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 type Props = {
   children: ReactNode;
@@ -11,13 +23,13 @@ type Props = {
 };
 
 export function Providers({ children, session }: Props) {
-  // const session = await getServerSession(authOptions);
-  // console.log(session, "session")
   return (
     <SessionProvider session={session}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        {children}
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
+      </QueryClientProvider>
     </SessionProvider>
   );
 }

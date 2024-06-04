@@ -37,7 +37,7 @@ export default async function RootLayout({
               rtl
             />
           </main>
-          <Menu />
+          <Menu session={session} />
         </Providers>
       </body>
     </html>
