@@ -35,9 +35,11 @@ export default async function RootLayout({
               hideProgressBar
               position="top-center"
               rtl
+              className="w-full sm:w-full sm:max-w-[450px]"
+              style={{ width: "100%"}}
             />
           </main>
-          <Menu session={session} />
+          <Menu />
         </Providers>
       </body>
     </html>

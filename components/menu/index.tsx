@@ -6,23 +6,115 @@ import { Modal } from "react-responsive-modal";
 import { useEffect, useState } from "react";
 import { Scanner, IDetectedBarcode } from "@yudiel/react-qr-scanner";
 import eruda from "eruda";
+import { useReserve } from "@/hooks/useMutations";
+import { useSession } from "next-auth/react";
+import { SessionType } from "@/types/next-auth";
+import { api } from "@/app/api/api";
+import { toast } from "react-toastify";
+import Toast from "../toast";
+import { signOut } from "next-auth/react";
 
-const Menu = ({ session }: any) => {
+const Menu = () => {
+  ////////////////////////////////////////// hooks ////////////////////////////
+  const { data: client } = useSession();
+  const session = client?.user as SessionType | undefined;
   const [open, setOpen] = useState(false);
   const path = usePathname();
-  console.log(session, "session");
+  ////////////////////////////////////////// mutations ////////////////////////////
+
+  const { mutate, data, isSuccess, isError, isLoading, error }: any =
+    useReserve();
+
+  ////////////////////////////////////////// functions ////////////////////////////
+
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
   const onResult = (result: Array<IDetectedBarcode>) => {
-    if (result[0].rawValue === "http://localhost:5000/seats/reserve") {
+    if (result[0].rawValue === api) {
+      mutate({ data: { username: session?.username || "" } });
       setOpen(false);
+    } else {
+      setOpen(false);
+      toast(<Toast message="کد اسکن شده با کد آشپزخانه تطابق ندارد" />, {
+        bodyStyle: {
+          background: "#fee4e2",
+          border: "1px solid #f04438",
+          borderRadius: "6px",
+          height: 50,
+          fontFamily: "Kalameh",
+          width: "100%",
+        },
+        autoClose: 1500,
+      });
     }
   };
 
+  ////////////////////////////////////////// useEffects ////////////////////////////
+
   useEffect(() => {
-    eruda.init();
+    if (process.env.NODE_ENV === "development") {
+      eruda.init();
+    }
   }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast(<Toast message="صندلی با موفقیت رزرو شد" />, {
+        bodyStyle: {
+          background: "#E2FEE4",
+          border: "1px solid #38F044",
+          borderRadius: "6px",
+          height: 50,
+          fontFamily: "Kalameh",
+        },
+        autoClose: 1500,
+      });
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      if (error.response.status === 400) {
+        toast(<Toast message="در حال حاضر صندلی رزر شده دارید." />, {
+          bodyStyle: {
+            background: "#fee4e2",
+            border: "1px solid #f04438",
+            borderRadius: "6px",
+            height: 50,
+            fontFamily: "Kalameh",
+            width: "100%",
+          },
+          autoClose: 1500,
+        });
+      } else if (error.response.status === 404) {
+        toast(<Toast message="کاربر با این شناسه وجود ندارد" />, {
+          bodyStyle: {
+            background: "#fee4e2",
+            border: "1px solid #f04438",
+            borderRadius: "6px",
+            height: 50,
+            fontFamily: "Kalameh",
+          },
+          autoClose: 1500,
+        });
+        signOut({ callbackUrl: "/login", redirect: true });
+      } else {
+        toast(<Toast message="خطای سرور. با دولوپر اپ تماس بگیرین" />, {
+          bodyStyle: {
+            background: "#fee4e2",
+            border: "1px solid #f04438",
+            borderRadius: "6px",
+            height: 50,
+            fontFamily: "Kalameh",
+          },
+          autoClose: 1500,
+        });
+      }
+    }
+  }, [isError]);
+
+  ////////////////////////////////////////// render ////////////////////////////
 
   if (path === "/login" || path === "/error") {
     return null;
@@ -41,7 +133,7 @@ const Menu = ({ session }: any) => {
         </div>
       </Link>
       <div
-        className="flex flex-col justify-end items-center relative"
+        className="flex flex-col justify-end items-center relative sm:opacity-50 sm:pointer-events-none"
         onClick={onOpenModal}
       >
         <div className="w-[70px] flex justify-center">{Qr(path === "/qr")}</div>

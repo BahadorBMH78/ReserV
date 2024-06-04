@@ -1,5 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
+import { api } from "../../api";
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -15,7 +16,8 @@ const authOptions: NextAuthOptions = {
         // Simulate loading state
         // You can show a loading spinner here
         // await new Promise((resolve) => setTimeout(resolve, 2000));
-        const response = await fetch("http://localhost:5000/users/login", {
+        console.log(api + "/users/login")
+        const response = await fetch(api + "users/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -25,8 +27,8 @@ const authOptions: NextAuthOptions = {
             password: credentials.password,
           }),
         });
-        if(!response.ok) {
-          return null
+        if (!response.ok) {
+          return null;
         }
         const data = await response.json();
 
@@ -65,7 +67,7 @@ const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: '/login',
+    signIn: "/login",
     // error: '/error', // Custom error page
   },
 };

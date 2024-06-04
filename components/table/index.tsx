@@ -6,8 +6,9 @@ import Smile from "@/public/smile.svg";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import io from "socket.io-client";
+import { api } from "@/app/api/api";
 
-const SOCKET_SERVER_URL = "http://localhost:5000";
+const SOCKET_SERVER_URL = api;
 
 const Table = () => {
   const [error, setError] = useState("");
