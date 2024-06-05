@@ -21,6 +21,7 @@ const config: Config = {
         teal: "#1fc2d1",
         bluePrimary: "rgba(35, 108, 255, 1)",
         bulutBrand500: "#236cff",
+        bulutBrand100: "#D9E8FF",
         grayText: "#4b4b4b",
         baseWhite: "#fff",
         warning100: "#FEEFC7",

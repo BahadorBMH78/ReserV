@@ -24,7 +24,6 @@ const Profile = () => {
   const handleChangeSource = (selectedFile: File) => {
     setImageSource(selectedFile);
   };
-  console.log(resolvedTheme, "resolvedTheme");
   const handleChange = () => {
     setTheme(resolvedTheme === "light" ? "dark" : "light");
   };

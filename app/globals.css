@@ -1,8 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Sacramento&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 @font-face {
   font-family: "Kalameh";
@@ -85,6 +83,10 @@ input[type="number"]::-webkit-outer-spin-button {
   height: calc(100svh - 307px);
 }
 
+.main_height_container {
+  height: calc(100svh - 210px);
+}
+
 .fui-avatar-label {
   font-family: "Kalameh" !important;
   font-size: 12px !important;
@@ -139,7 +141,15 @@ input[type="number"]::-webkit-outer-spin-button {
 #qrContainer path {
   stroke: #fff;
 }
-/* 
-html.dark #qrContainer path {
+
+/* html.dark #qrContainer path {
   stroke: #fff !important;
+} */
+
+/* #animation g {
+  fill: #fff !important;
+}
+
+#animation path {
+  fill: #fff !important;
 } */
