@@ -6,7 +6,6 @@ import "react-modern-drawer/dist/index.css";
 import { Providers } from "./providers";
 import "react-responsive-modal/styles.css";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
