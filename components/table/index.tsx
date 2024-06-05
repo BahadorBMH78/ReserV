@@ -5,13 +5,46 @@ import Image from "next/image";
 import Smile from "@/public/smile.svg";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import io from "socket.io-client";
+import { api } from "@/app/api/api";
+
+const SOCKET_SERVER_URL = api;
 
 const Table = () => {
-  const { resolvedTheme } = useTheme()
+  const [error, setError] = useState("");
+  const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [seats, setSeats] = useState([]);
   useEffect(() => {
     setMounted(true);
   }, []);
+  useEffect(() => {
+    if (mounted) {
+      // Connect to the Socket.IO server
+      const socket = io(SOCKET_SERVER_URL);
+
+      // Emit 'requestSeatData' event to request seat data
+      socket.emit("requestSeatData");
+
+      // Listen for 'seatData' event
+      socket.on("seatData", (data) => {
+        console.log("Real-time seat data:", data);
+        setSeats(data);
+      });
+
+      // Listen for 'seatDataError' event
+      socket.on("seatDataError", (errorMessage) => {
+        console.error(errorMessage);
+        setError(errorMessage);
+      });
+
+      // Clean up the socket connection on component unmount
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [mounted]);
+
   if (!mounted) {
     return null;
   }

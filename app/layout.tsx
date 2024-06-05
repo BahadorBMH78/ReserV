@@ -8,7 +8,7 @@ import "react-responsive-modal/styles.css";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/ReactToastify.css';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -34,6 +34,8 @@ export default async function RootLayout({
               hideProgressBar
               position="top-center"
               rtl
+              className="w-full sm:w-full sm:max-w-[450px]"
+              style={{ width: "100%"}}
             />
           </main>
           <Menu />

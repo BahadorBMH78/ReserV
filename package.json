@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@files-ui/react": "^1.2.4",
+    "@yudiel/react-qr-scanner": "^2.0.1",
+    "axios": "^1.7.2",
+    "eruda": "^3.0.1",
     "moment-jalaali": "^0.10.0",
     "moment-timezone": "^0.5.45",
     "next": "14.2.3",
@@ -21,10 +24,11 @@
     "react-avatar-editor": "^13.0.2",
     "react-dom": "^18",
     "react-modern-drawer": "^1.3.1",
+    "react-query": "^3.39.3",
     "react-responsive-modal": "^6.4.2",
     "react-switch": "^7.0.0",
     "react-toastify": "^10.0.5",
-    "rodal": "^2.1.0"
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "@types/moment-jalaali": "^0.7.9",
