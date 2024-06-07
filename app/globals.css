@@ -92,6 +92,10 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 12px !important;
 }
 
+.fui-avatar-main-container .fui-avatar-image {
+  height: 100%;
+}
+
 .react-responsive-modal-modal {
   border-radius: 6px;
   width: 100%;

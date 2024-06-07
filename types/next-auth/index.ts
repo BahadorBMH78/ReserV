@@ -5,4 +5,5 @@ export type SessionType = {
   name?: string;
   email?: string;
   image?: string;
+  profilePicture?: string;
 } | null;

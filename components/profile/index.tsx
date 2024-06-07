@@ -7,19 +7,25 @@ import SunDark from "@/public/sun-dark.svg";
 // import Password from "@/public/password-lock.svg";
 // import Comments from "@/public/comments.svg";
 import Logout from "@/public/logout.svg";
-import Arrow from "@/public/arrow.svg";
-import ArrowDark from "@/public/arrow-dark.svg";
+import { useSession } from "next-auth/react";
+import { SessionType } from "@/types/next-auth";
 import Switch from "react-switch";
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
+import { api } from "@/app/api/api";
 
 const Profile = () => {
+  ////////////////////////////////////////// hooks ////////////////////////////
+  const { data: client } = useSession();
+  const session = client?.user as SessionType | undefined;
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   const [imageSource, setImageSource] = useState<
     AvatarProps["src"] | undefined
-  >("/tom.jpg");
+  >(`${api}uploads/profilePicture/${session?.id}`);
+
+  ////////////////////////////////////////// functions ////////////////////////////
 
   const handleChangeSource = (selectedFile: File) => {
     setImageSource(selectedFile);
@@ -28,7 +34,11 @@ const Profile = () => {
     setTheme(resolvedTheme === "light" ? "dark" : "light");
   };
 
+  ////////////////////////////////////////// useEffects ////////////////////////////
+
   useEffect(() => setMounted(true), []);
+  ////////////////////////////////////////// render ////////////////////////////
+
   if (!mounted) {
     return null;
   }
@@ -51,7 +61,10 @@ const Profile = () => {
           بهادر محمدحسینی
         </p>
         <div className="w-full flex items-center flex-col mt-[40px] gap-[8px]">
-          <div onClick={() => handleChange()} className="flex justify-between items-center h-[48px] w-full rounded-[6px] bg-[#f3f3f3] py-[12px] px-[16px] rtl dark:bg-[#161b26]">
+          <div
+            onClick={() => handleChange()}
+            className="flex justify-between items-center h-[48px] w-full rounded-[6px] bg-[#f3f3f3] py-[12px] px-[16px] rtl dark:bg-[#161b26]"
+          >
             <div className="flex items-center gap-[8px]">
               <Image
                 src={resolvedTheme === "light" ? Sun : SunDark}
@@ -85,7 +98,6 @@ const Profile = () => {
             </div>
             <Image src={Arrow} alt="arrow" />
           </div> */}
-
           <div
             className="flex justify-between  items-center h-[48px] gap-[8px] w-full rounded-[6px] bg-[#f3f3f3] py-[12px] px-[16px] rtl dark:bg-[#161b26]"
             onClick={() => signOut({ callbackUrl: "/login", redirect: true })}
@@ -96,10 +108,10 @@ const Profile = () => {
                 خروج از حساب
               </p>
             </div>
-            <Image
+            {/* <Image
               src={resolvedTheme === "light" ? Arrow : ArrowDark}
               alt="arrow"
-            />
+            /> */}
           </div>
         </div>
       </div>

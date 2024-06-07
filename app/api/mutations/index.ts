@@ -8,9 +8,15 @@ type Data = {
 };
 
 export const reserve = async (data: Data) => {
-  console.log(data.data, "data.data")
   const axiosInstance = await createAxiosInstance();
   return await axiosInstance
     .post(api + "seats/reserve", data.data)
+    .then((res) => res.data);
+};
+
+export const terminate = async (data: Data) => {
+  const axiosInstance = await createAxiosInstance();
+  return await axiosInstance
+    .delete(api + `seats/terminate/${data.data.username}`)
     .then((res) => res.data);
 };

@@ -13,10 +13,7 @@ const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials: any) => {
-        // Simulate loading state
-        // You can show a loading spinner here
-        // await new Promise((resolve) => setTimeout(resolve, 2000));
-        console.log(api + "/users/login")
+        console.log(api + "/users/login");
         const response = await fetch(api + "users/login", {
           method: "POST",
           headers: {
@@ -27,18 +24,16 @@ const authOptions: NextAuthOptions = {
             password: credentials.password,
           }),
         });
+
         if (!response.ok) {
           return null;
         }
         const data = await response.json();
 
         if (data) {
-          console.log(data, "datatatatatatat");
-          // console.log(data, "datadatadata")
-          // Simulate success state
+          console.log(data, "Response data");
           return data;
         }
-        // Simulate error state
         return null;
       },
     },
@@ -49,26 +44,29 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }: any) {
       if (user) {
+        console.log(user, "User data");
         token.id = user.user.id;
         token.username = user.user.username;
-        token.token = user.token; // Attach the JWT token to the token object
+        token.token = user.token;
+        token.profilePicture = user.user.profilePicture; // Ensure profilePicture is attached
       }
       return token;
     },
     async session({ session, token }: any) {
       if (token) {
+        console.log(token, "Token data");
         session.user = {
           id: token.id,
           username: token.username,
           token: token.token,
-        }; // Attach the user information to the session object
+          profilePicture: token.profilePicture // Ensure session has profilePicture
+        };
       }
       return session;
     },
   },
   pages: {
     signIn: "/login",
-    // error: '/error', // Custom error page
   },
 };
 

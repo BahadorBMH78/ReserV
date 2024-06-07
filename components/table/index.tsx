@@ -9,7 +9,6 @@ import io from "socket.io-client";
 import { api } from "@/app/api/api";
 import { SeatType, TimerType } from "@/types/seats";
 import AnimationLight from "@/public/Animation - light.json";
-import AnimationDark from "@/public/Animation - light.json";
 import Animation from "@/public/loader.json";
 import Lottie from "react-lottie";
 import { table, tableDark } from "./svg";
@@ -17,6 +16,9 @@ import moment from "moment";
 import { useSession } from "next-auth/react";
 import { SessionType } from "@/types/next-auth";
 import PrimaryBtn from "../button";
+import { useTerminate } from "@/hooks/useMutations";
+import { toast } from "react-toastify";
+import Toast from "../toast";
 
 const SOCKET_SERVER_URL = api;
 
@@ -24,6 +26,17 @@ const Table = () => {
   const { data: client } = useSession();
   const session = client?.user as SessionType | undefined;
   const { resolvedTheme } = useTheme();
+  ////////////////////////////////////////////////////////////////// mutations //////////////////////////////////////////////////////////////////////////
+
+  const {
+    mutate,
+    data,
+    isSuccess,
+    isError,
+    isLoading,
+    error: errorInstance,
+  }: any = useTerminate();
+
   ////////////////////////////////////////////////////////////////// hooks and var //////////////////////////////////////////////////////////////////////////
   let defaultOptions = {
     loop: true,
@@ -34,11 +47,11 @@ const Table = () => {
     },
   };
   const [error, setError] = useState("");
-  const [self, setSelf] = useState(false);
+  const [self, setSelf] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
   const [randNums, setRandNums] = useState<number[]>([]);
   const [seats, setSeats] = useState<SeatType[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState<TimerType>({
     hours: 0,
     minutes: 0,
@@ -54,51 +67,54 @@ const Table = () => {
   }, [resolvedTheme]);
 
   useEffect(() => {
+    const socket = io(SOCKET_SERVER_URL);
 
-      const socket = io(SOCKET_SERVER_URL);
+    if (socket.connected) {
+      setLoading(false);
+    }
 
-      if (socket.connected) {
-        setLoading(false);
+    socket.on("connect", () => {
+      setLoading(false); // Set loading to false when connection is successful
+    });
+
+    socket.emit("requestSeatData");
+
+    socket.on("seatData", (data) => {
+      setLoading(false);
+      console.log("Real-time seat data:", data);
+      setSeats(data);
+
+      const user = data.find(
+        (item: SeatType) => item.username === session?.username
+      );
+
+      if (user) {
+        setSelf(user);
+      } else {
+        setSelf(null);
       }
+    });
 
-      socket.on("connect", () => {
-        setLoading(false); // Set loading to false when connection is successful
-      });
+    socket.on("seatDataError", (errorMessage) => {
+      console.error(errorMessage);
+      setError(errorMessage);
+      setLoading(false); // Set loading to false when an error occurs
+    });
 
-      socket.emit("requestSeatData");
-
-      socket.on("seatData", (data) => {
-        setLoading(false);
-        console.log("Real-time seat data:", data);
-        setSeats(data);
-        let check = data.some(
-          (item: SeatType) => item.username === session?.username
-        );
-        console.log(data, check)
-        if (check) {
-          setSelf(true);
-        } else {
-          setSelf(false);
-        }
-      });
-
-      socket.on("seatDataError", (errorMessage) => {
-        console.error(errorMessage);
-        setError(errorMessage);
-        setLoading(false); // Set loading to false when an error occurs
-      });
-
-      return () => {
-        socket.disconnect();
-      };
-    
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   useEffect(() => {
     if (seats.length > 0 && seats[0].endTime) {
       const initializeTimer = () => {
         const currentTime = moment().valueOf();
-        setTimeLeft(calculateTimeLeft(seats[0].endTime, currentTime));
+        if (self) {
+          setTimeLeft(calculateTimeLeft(self.endTime, currentTime));
+        } else {
+          setTimeLeft(calculateTimeLeft(seats[0].endTime, currentTime));
+        }
       };
 
       initializeTimer();
@@ -106,7 +122,7 @@ const Table = () => {
       const timer = setInterval(() => {
         setTimeLeft((prevTimeLeft: TimerType) => {
           const updatedTimeLeft = calculateTimeLeft(
-            seats[0].endTime,
+            self ? self.endTime : seats[0].endTime,
             prevTimeLeft.referenceTime! + 1000
           );
           return {
@@ -117,6 +133,12 @@ const Table = () => {
       }, 1000);
 
       return () => clearInterval(timer);
+    } else {
+      setTimeLeft({
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+      });
     }
   }, [seats]);
 
@@ -124,15 +146,46 @@ const Table = () => {
     if (seats.length > 0) {
       let uniqueRandomIntArray: any = generateUniqueRandomIntArray(
         0,
-        seats.length,
+        seats.length - 1,
         seats.length
       );
       setRandNums(uniqueRandomIntArray);
+      console.log(uniqueRandomIntArray, "rand");
     } else {
       setRandNums([]);
     }
   }, [seats]);
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast(<Toast message="تایم صرف غذای شما لغو گردید." />, {
+        bodyStyle: {
+          background: "#E2FEE4",
+          border: "1px solid #38F044",
+          borderRadius: "6px",
+          height: 50,
+          fontFamily: "Kalameh",
+        },
+        autoClose: 1500,
+      });
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      toast(<Toast message="مشکلی در لغو تایم به وجود آمده است." />, {
+        bodyStyle: {
+          background: "#fee4e2",
+          border: "1px solid #f04438",
+          borderRadius: "6px",
+          height: 50,
+          fontFamily: "Kalameh",
+          width: "100%",
+        },
+        autoClose: 1500,
+      });
+    }
+  }, [isError]);
   ////////////////////////////////////////////////////////////////// functions //////////////////////////////////////////////////////////////////////////
 
   function calculateTimeLeft(
@@ -187,7 +240,10 @@ const Table = () => {
     }
     return Array.from(randomSet);
   }
-  // console.log(uniqueRandomIntArray, "randomIntArray");
+
+  const terminateSession = () => {
+    mutate({ data: { username: session?.username } });
+  };
 
   ////////////////////////////////////////////////////////////////// render //////////////////////////////////////////////////////////////////////////
 
@@ -218,12 +274,7 @@ const Table = () => {
               </p>
             </div>
             <div className="border-[1px] mt-[16px] dark:border-transparent" />
-            <div className="flex flex-col items-center justify-center h-full mt-[32px] main_height relative">
-              {/* <Image
-            src={resolvedTheme === "light" ? TableSvg : TableDarkSvg}
-            alt="Table"
-            className="object-contain h-full flex-1"
-          /> */}
+            <div className="flex flex-col items-center justify-center h-full mt-[25px] main_height relative">
               {resolvedTheme === "light"
                 ? table(randNums)
                 : tableDark(randNums)}
@@ -235,7 +286,7 @@ const Table = () => {
               <p className="rtl font-[500] dark:text-[#dfdfdf]">
                 زمان تموم شدن ناهارت!
               </p>
-              <p className="rtl font-[500] dark:text-bulutBrand500 mt-[16px]">
+              <p className="rtl font-[500] text-bulutBrand500 dark:text-bulutBrand500 mt-[16px]">
                 {`${timeLeft.hours
                   .toString()
                   .padStart(2, "0")}:${timeLeft.minutes
@@ -258,22 +309,22 @@ const Table = () => {
       {!self ? (
         <div
           className={`h-[40px] ${
-            seats.length >= 10
-              ? "#fee4e2"
-              : seats.length > 5
+            seats.length <= 5
+              ? "bg-bulutBrand100"
+              : seats.length > 5 && seats.length < 8
               ? "bg-warning100"
-              : "bg-bulutBrand100"
-          } w-full mt-[8px] rounded-[8px] gap-[10px] flex justify-center items-center`}
+              : "bg-[#FEE4E2]"
+          } w-full mt-[15px] rounded-[8px] gap-[10px] flex justify-center items-center`}
         >
-          {seats.length >= 10 ? (
+          {seats.length <= 5 ? (
             <>
               {" "}
               <p className="text-warning600 font-[500] text-[14px] rtl">
-                بهادر وضعیت آشپزخونه داغونه!
+                وقت ناهاره بهادر جان!
               </p>
-              <Image src={Angry} alt="Angry" />
+              <Image src={Happy} alt="Happy" />
             </>
-          ) : seats.length > 5 ? (
+          ) : seats.length > 5 && seats.length < 8 ? (
             <>
               {" "}
               <p className="text-warning600 font-[500] text-[14px] rtl">
@@ -285,18 +336,21 @@ const Table = () => {
             <>
               {" "}
               <p className="text-warning600 font-[500] text-[14px] rtl">
-                وقت ناهاره بهادر جان!
+                بهادر وضعیت آشپزخونه داغونه!
               </p>
-              <Image src={Happy} alt="Happy" />
+              <Image src={Angry} alt="Angry" />
             </>
           )}
         </div>
       ) : (
-        <div className="w-full h-full relative mt-[10px]">
-          <PrimaryBtn title="تموم شدم" onClick={() => console.log("hi")} loading={false} />
+        <div className="w-full h-full relative mt-[15px]">
+          <PrimaryBtn
+            title="تموم شدم"
+            onClick={() => terminateSession()}
+            loading={isLoading}
+          />
         </div>
       )}
-      {/* <Lottie  options={defaultOptions} height={50} width={50} /> */}
     </div>
   );
 };
