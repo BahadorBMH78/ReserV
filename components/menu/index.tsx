@@ -75,7 +75,7 @@ const Menu = () => {
 
   useEffect(() => {
     if (isError) {
-      if (error.response.status === 400) {
+      if (error && error.response?.status === 400) {
         toast(<Toast message="در حال حاضر صندلی رزر شده دارید." />, {
           bodyStyle: {
             background: "#fee4e2",
@@ -87,7 +87,7 @@ const Menu = () => {
           },
           autoClose: 1500,
         });
-      } else if (error.response.status === 404) {
+      } else if (error && error.response?.status === 404) {
         toast(<Toast message="کاربر با این شناسه وجود ندارد" />, {
           bodyStyle: {
             background: "#fee4e2",
