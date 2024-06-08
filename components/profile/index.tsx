@@ -16,12 +16,11 @@ import { api } from "@/app/api/api";
 import { useProfilePic } from "@/hooks/useMutations";
 import { toast } from "react-toastify";
 import Toast from "../toast";
+import { useRouter } from "next/navigation";
 
 const Profile = () => {
   ////////////////////////////////////////// hooks ////////////////////////////
-  const { mutate, data, isSuccess, isError, isLoading, error }: any =
-    useProfilePic();
-
+  const router = useRouter();
   const { data: client } = useSession();
   const session = client?.user as SessionType | undefined;
   const { setTheme, resolvedTheme } = useTheme();
@@ -34,20 +33,14 @@ const Profile = () => {
   // Use local state to force re-render
   const [imageKey, setImageKey] = useState(0);
 
+  ////////////////////////////////////////// queries and mutations ////////////////////////////
+  const { mutate, isSuccess, isError, isLoading, error }: any = useProfilePic();
   ////////////////////////////////////////// functions ////////////////////////////
 
   const handleChangeSource = (selectedFile: File) => {
     const formData = new FormData();
     formData.append("profilePicture", selectedFile);
-    mutate(formData, {
-      onSuccess: () => {
-        // Add a unique timestamp to the image URL
-        const uniqueParam = `?t=${new Date().getTime()}`;
-        setImageSource(
-          `${api}uploads/profilePicture/${session?.id}${uniqueParam}`
-        );
-      },
-    });
+    mutate(formData);
   };
   const handleChange = () => {
     setTheme(resolvedTheme === "light" ? "dark" : "light");
@@ -61,7 +54,12 @@ const Profile = () => {
   }, []);
   useEffect(() => {
     if (isSuccess) {
-      setImageKey((prevKey) => prevKey + 1); // Update the key to force re-render
+      const uniqueParam = `?t=${new Date().getTime()}`;
+      setImageSource(
+        `${api}uploads/profilePicture/${session?.id}${uniqueParam}`
+      );
+      console.log("sadasd");
+      window.location.reload()
       toast(<Toast message="تصویر پروفایل شما با موفقیت تغییر یافت." />, {
         bodyStyle: {
           background: "#E2FEE4",
@@ -70,7 +68,7 @@ const Profile = () => {
           height: 50,
           fontFamily: "Kalameh",
         },
-        autoClose: 1500,
+        autoClose: 3000,
       });
     }
   }, [isSuccess, session?.id]);
@@ -85,12 +83,12 @@ const Profile = () => {
           fontFamily: "Kalameh",
           width: "100%",
         },
-        autoClose: 1500,
+        autoClose: 3000,
       });
     }
   }, [isError]);
-  
-  console.log(session)
+
+  console.log(session);
 
   ////////////////////////////////////////// render ////////////////////////////
 
@@ -104,6 +102,7 @@ const Profile = () => {
           key={imageKey}
           isLoading={isLoading}
           src={imageSource}
+          
           onError={() => setImageSource("/tom.jpg")}
           alt="Avatar"
           width={100}
@@ -121,7 +120,7 @@ const Profile = () => {
         <div className="w-full flex items-center flex-col mt-[40px] gap-[8px]">
           <div
             onClick={() => handleChange()}
-            className="flex justify-between items-center h-[48px] w-full rounded-[6px] bg-[#f3f3f3] py-[12px] px-[16px] rtl dark:bg-[#161b26]"
+            className="flex justify-between items-center h-[48px] w-full rounded-[6px] bg-[#f3f3f3] py-[12px] px-[16px] rtl dark:bg-[#161b26] cursor-pointer"
           >
             <div className="flex items-center gap-[8px]">
               <Image
@@ -157,7 +156,7 @@ const Profile = () => {
             <Image src={Arrow} alt="arrow" />
           </div> */}
           <div
-            className="flex justify-between  items-center h-[48px] gap-[8px] w-full rounded-[6px] bg-[#f3f3f3] py-[12px] px-[16px] rtl dark:bg-[#161b26]"
+            className="flex justify-between  items-center h-[48px] gap-[8px] w-full rounded-[6px] bg-[#f3f3f3] py-[12px] px-[16px] rtl dark:bg-[#161b26] cursor-pointer"
             onClick={() => signOut({ callbackUrl: "/login", redirect: true })}
           >
             <div className="flex items-center gap-[8px]">

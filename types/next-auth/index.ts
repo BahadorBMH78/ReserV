@@ -1,5 +1,5 @@
 export type SessionType = {
-  id: string;
+  id?: string;
   firstname: string;
   lastname: string;
   username: string;

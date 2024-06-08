@@ -15,23 +15,21 @@ import Toast from "../toast";
 import { signOut } from "next-auth/react";
 
 const Menu = () => {
-  ////////////////////////////////////////// hooks ////////////////////////////
+  ////////////////////////////////////////// hooks ///////////////////////////////////////////
   const { data: client } = useSession();
   const session = client?.user as SessionType | undefined;
   const [open, setOpen] = useState(false);
   const path = usePathname();
-  ////////////////////////////////////////// mutations ////////////////////////////
+  ////////////////////////////////////////// mutations ////////////////////////////////////////
   const { mutate, data, isSuccess, isError, isLoading, error }: any =
     useReserve();
 
-  ////////////////////////////////////////// functions ////////////////////////////
+  ////////////////////////////////////////// functions ////////////////////////////////////////
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
   const onResult = (result: Array<IDetectedBarcode>) => {
-    console.log(api + "seats/reserve");
-    console.log(result[0].rawValue + "result[0].rawValue");
     if (result[0].rawValue === api + "seats/reserve") {
       mutate({ data: { username: session?.username || "" } });
       setOpen(false);
@@ -46,7 +44,7 @@ const Menu = () => {
           fontFamily: "Kalameh",
           width: "100%",
         },
-        autoClose: 1500,
+        autoClose: 3000,
       });
     }
   };
@@ -69,7 +67,7 @@ const Menu = () => {
           height: 50,
           fontFamily: "Kalameh",
         },
-        autoClose: 1500,
+        autoClose: 3000,
       });
     }
   }, [isSuccess]);
@@ -86,7 +84,7 @@ const Menu = () => {
             fontFamily: "Kalameh",
             width: "100%",
           },
-          autoClose: 1500,
+          autoClose: 3000,
         });
       } else if (error.response.status === 404) {
         toast(<Toast message="کاربر با این شناسه وجود ندارد" />, {
@@ -97,7 +95,7 @@ const Menu = () => {
             height: 50,
             fontFamily: "Kalameh",
           },
-          autoClose: 1500,
+          autoClose: 3000,
         });
         signOut({ callbackUrl: "/login", redirect: true });
       } else {
@@ -109,7 +107,7 @@ const Menu = () => {
             height: 50,
             fontFamily: "Kalameh",
           },
-          autoClose: 1500,
+          autoClose: 3000,
         });
       }
     }
@@ -134,7 +132,7 @@ const Menu = () => {
         </div>
       </Link>
       <div
-        className="flex flex-col justify-end items-center relative sm:opacity-50 sm:pointer-events-none"
+        className="flex flex-col justify-end items-center relative sm:opacity-50 sm:pointer-events-none md:opacity-50 md:pointer-events-none"
         onClick={onOpenModal}
       >
         <div className="w-[70px] flex justify-center">{Qr(path === "/qr")}</div>

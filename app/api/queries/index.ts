@@ -7,10 +7,9 @@ type Data = {
   };
 };
 
-export const boScan = async (data: any) => {
+export const getProfilePic = async (data: Data) => {
   const axiosInstance = await createAxiosInstance();
-
   return await axiosInstance
-    .get(api + `users/boScan/${data.data.id}`)
+    .get(api + `uploads/profilePicture/${data.data.id}`)
     .then((res) => res.data);
 };

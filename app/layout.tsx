@@ -8,7 +8,7 @@ import "react-responsive-modal/styles.css";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/ReactToastify.css';
+import "react-toastify/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "Bulut Kitchen",
@@ -27,7 +27,7 @@ export default async function RootLayout({
       <body className="bg-white dark:bg-black">
         <Providers session={session}>
           <Header />
-          <main className="px-[24px] pb-[32px] pt-[20px] flex-1 overflow-auto">
+          <main className="px-[24px] pb-[32px] pt-[20px] flex-1 overflow-auto select-none">
             {children}
             <ToastContainer
               closeButton={false}
@@ -35,7 +35,7 @@ export default async function RootLayout({
               position="top-center"
               rtl
               className="w-full sm:w-full sm:max-w-[450px]"
-              style={{ width: "100%"}}
+              style={{ width: "100%" }}
             />
           </main>
           <Menu />

@@ -166,7 +166,7 @@ const Table = () => {
           height: 50,
           fontFamily: "Kalameh",
         },
-        autoClose: 1500,
+        autoClose: 3000,
       });
     }
   }, [isSuccess]);
@@ -182,7 +182,7 @@ const Table = () => {
           fontFamily: "Kalameh",
           width: "100%",
         },
-        autoClose: 1500,
+        autoClose: 3000,
       });
     }
   }, [isError]);
