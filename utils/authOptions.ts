@@ -1,6 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
-import { api } from "../../api";
+import { api } from "@/app/api/api";
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -77,3 +77,4 @@ const authOptions: NextAuthOptions = {
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
+export { authOptions }

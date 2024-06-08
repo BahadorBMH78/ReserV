@@ -2,7 +2,7 @@ import React from "react";
 import ProfilePage from "@/components/profile";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/utils/authOptions";
 import { SessionType } from "@/types/user";
 
 const Profile = async () => {
@@ -14,22 +14,5 @@ const Profile = async () => {
     </main>
   );
 };
-
-export async function generateHeaders() {
-  return [
-    {
-      key: "Cache-Control",
-      value: "no-store, no-cache, must-revalidate, proxy-revalidate",
-    },
-    {
-      key: "Pragma",
-      value: "no-cache",
-    },
-    {
-      key: "Expires",
-      value: "0",
-    },
-  ];
-}
 
 export default Profile;

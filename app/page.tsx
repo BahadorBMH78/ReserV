@@ -1,7 +1,7 @@
 import Table from "@/components/table";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "@/utils/authOptions";
 import { SessionType } from "@/types/user";
 
 export default async function Home() {
