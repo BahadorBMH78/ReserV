@@ -53,9 +53,9 @@ const Menu = () => {
   ////////////////////////////////////////// useEffects ////////////////////////////
 
   useEffect(() => {
-    if (process.env.NODE_ENV === "development") {
+
       eruda.init();
-    }
+    
   }, []);
 
   useEffect(() => {
