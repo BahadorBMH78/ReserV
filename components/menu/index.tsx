@@ -26,7 +26,10 @@ const Menu = () => {
 
   ////////////////////////////////////////// functions ////////////////////////////
 
-  const onOpenModal = () => setOpen(true);
+  const onOpenModal = () => {
+    setOpen(true);
+    mutate({ data: { username: session?.username || "" } });
+  };
   const onCloseModal = () => setOpen(false);
 
   const onResult = (result: Array<IDetectedBarcode>) => {
