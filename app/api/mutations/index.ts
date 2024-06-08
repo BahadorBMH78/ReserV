@@ -20,3 +20,10 @@ export const terminate = async (data: Data) => {
     .delete(api + `seats/terminate/${data.data.username}`)
     .then((res) => res.data);
 };
+
+export const profilePic = async (data: any) => {
+  const axiosInstance = await createAxiosInstance();
+  return await axiosInstance
+    .post(api + `uploads/profilePicture`, data)
+    .then((res) => res.data);
+};

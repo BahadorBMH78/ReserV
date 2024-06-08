@@ -1,4 +1,4 @@
-import { reserve, terminate } from "@/app/api/mutations";
+import { reserve, terminate, profilePic } from "@/app/api/mutations";
 import { useMutation } from "react-query";
 
 type Reserve = {
@@ -13,4 +13,8 @@ export function useReserve() {
 
 export function useTerminate() {
   return useMutation((data: Reserve) => terminate(data));
+}
+
+export function useProfilePic() {
+  return useMutation((data: any) => profilePic(data));
 }

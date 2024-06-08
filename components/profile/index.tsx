@@ -13,9 +13,15 @@ import Switch from "react-switch";
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 import { api } from "@/app/api/api";
+import { useProfilePic } from "@/hooks/useMutations";
+import { toast } from "react-toastify";
+import Toast from "../toast";
 
 const Profile = () => {
   ////////////////////////////////////////// hooks ////////////////////////////
+  const { mutate, data, isSuccess, isError, isLoading, error }: any =
+    useProfilePic();
+
   const { data: client } = useSession();
   const session = client?.user as SessionType | undefined;
   const { setTheme, resolvedTheme } = useTheme();
@@ -23,12 +29,25 @@ const Profile = () => {
 
   const [imageSource, setImageSource] = useState<
     AvatarProps["src"] | undefined
-  >(`${api}uploads/profilePicture/${session?.id}`);
+  >();
+
+  // Use local state to force re-render
+  const [imageKey, setImageKey] = useState(0);
 
   ////////////////////////////////////////// functions ////////////////////////////
 
   const handleChangeSource = (selectedFile: File) => {
-    setImageSource(selectedFile);
+    const formData = new FormData();
+    formData.append("profilePicture", selectedFile);
+    mutate(formData, {
+      onSuccess: () => {
+        // Add a unique timestamp to the image URL
+        const uniqueParam = `?t=${new Date().getTime()}`;
+        setImageSource(
+          `${api}uploads/profilePicture/${session?.id}${uniqueParam}`
+        );
+      },
+    });
   };
   const handleChange = () => {
     setTheme(resolvedTheme === "light" ? "dark" : "light");
@@ -36,7 +55,43 @@ const Profile = () => {
 
   ////////////////////////////////////////// useEffects ////////////////////////////
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    setImageSource(`${api}uploads/profilePicture/${session?.id}`);
+  }, []);
+  useEffect(() => {
+    if (isSuccess) {
+      setImageKey((prevKey) => prevKey + 1); // Update the key to force re-render
+      toast(<Toast message="تصویر پروفایل شما با موفقیت تغییر یافت." />, {
+        bodyStyle: {
+          background: "#E2FEE4",
+          border: "1px solid #38F044",
+          borderRadius: "6px",
+          height: 50,
+          fontFamily: "Kalameh",
+        },
+        autoClose: 1500,
+      });
+    }
+  }, [isSuccess, session?.id]);
+  useEffect(() => {
+    if (isError) {
+      toast(<Toast message="مشکلی در آپلود تصویر بوجود آمده است." />, {
+        bodyStyle: {
+          background: "#fee4e2",
+          border: "1px solid #f04438",
+          borderRadius: "6px",
+          height: 50,
+          fontFamily: "Kalameh",
+          width: "100%",
+        },
+        autoClose: 1500,
+      });
+    }
+  }, [isError]);
+  
+  console.log(session)
+
   ////////////////////////////////////////// render ////////////////////////////
 
   if (!mounted) {
@@ -46,7 +101,10 @@ const Profile = () => {
     <div className="flex flex-col w-full">
       <div className="flex flex-col justify-center items-center w-full">
         <Avatar
+          key={imageKey}
+          isLoading={isLoading}
           src={imageSource}
+          onError={() => setImageSource("/tom.jpg")}
           alt="Avatar"
           width={100}
           height={100}
@@ -58,7 +116,7 @@ const Profile = () => {
           onChange={handleChangeSource}
         />
         <p className="text-dark_gray700 mt-[16px] font-[500] text-[14px] dark:text-grayIron50">
-          بهادر محمدحسینی
+          {session?.firstname} {session?.lastname}
         </p>
         <div className="w-full flex items-center flex-col mt-[40px] gap-[8px]">
           <div

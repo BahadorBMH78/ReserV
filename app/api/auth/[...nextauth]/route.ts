@@ -48,7 +48,9 @@ const authOptions: NextAuthOptions = {
         token.id = user.user.id;
         token.username = user.user.username;
         token.token = user.token;
-        token.profilePicture = user.user.profilePicture; // Ensure profilePicture is attached
+        token.profilePicture = user.user.profilePicture;
+        token.firstname = user.user.firstname;
+        token.lastname = user.user.lastname;
       }
       return token;
     },
@@ -59,7 +61,9 @@ const authOptions: NextAuthOptions = {
           id: token.id,
           username: token.username,
           token: token.token,
-          profilePicture: token.profilePicture // Ensure session has profilePicture
+          profilePicture: token.profilePicture,
+          firstname: token.firstname,
+          lastname: token.lastname 
         };
       }
       return session;
