@@ -320,7 +320,7 @@ const Table = () => {
             <>
               {" "}
               <p className="text-warning600 font-[500] text-[14px] rtl">
-                وقت ناهاره بهادر جان!
+                وقت ناهاره {session?.firstname} جان!
               </p>
               <Image src={Happy} alt="Happy" />
             </>
@@ -328,7 +328,7 @@ const Table = () => {
             <>
               {" "}
               <p className="text-warning600 font-[500] text-[14px] rtl">
-                میتونی بری ناهار بخوری بهادر جان!
+                میتونی بری ناهار بخوری {session?.firstname} جان!
               </p>
               <Image src={Smile} alt="Smile" />
             </>
@@ -336,7 +336,7 @@ const Table = () => {
             <>
               {" "}
               <p className="text-warning600 font-[500] text-[14px] rtl">
-                بهادر وضعیت آشپزخونه داغونه!
+                {session?.firstname} وضعیت آشپزخونه داغونه!
               </p>
               <Image src={Angry} alt="Angry" />
             </>
