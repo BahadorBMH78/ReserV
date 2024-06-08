@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Modal } from "react-responsive-modal";
 import { useEffect, useState } from "react";
 import { Scanner, IDetectedBarcode } from "@yudiel/react-qr-scanner";
-// import eruda from "eruda";
+import eruda from "eruda";
 import { useReserve } from "@/hooks/useMutations";
 import { useSession } from "next-auth/react";
 import { SessionType } from "@/types/next-auth";
@@ -31,6 +31,7 @@ const Menu = () => {
 
   const onResult = (result: Array<IDetectedBarcode>) => {
     if (result[0].rawValue === api + "seats/reserve") {
+      console.log(api + "seats/reserve")
       mutate({ data: { username: session?.username || "" } });
       setOpen(false);
     } else {
@@ -51,11 +52,11 @@ const Menu = () => {
 
   ////////////////////////////////////////// useEffects ////////////////////////////
 
-  // useEffect(() => {
-  //   if (process.env.NODE_ENV === "development") {
-  //     eruda.init();
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      eruda.init();
+    }
+  }, []);
 
   useEffect(() => {
     if (isSuccess) {
