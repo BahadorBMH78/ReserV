@@ -30,7 +30,7 @@ const Menu = () => {
   const onCloseModal = () => setOpen(false);
 
   const onResult = (result: Array<IDetectedBarcode>) => {
-    if (result[0].rawValue === api) {
+    if (result[0].rawValue === api + "seats/reserve") {
       mutate({ data: { username: session?.username || "" } });
       setOpen(false);
     } else {
