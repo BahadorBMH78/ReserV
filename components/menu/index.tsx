@@ -30,8 +30,9 @@ const Menu = () => {
   const onCloseModal = () => setOpen(false);
 
   const onResult = (result: Array<IDetectedBarcode>) => {
+    console.log(api + "seats/reserve");
+    console.log(result[0].rawValue + "result[0].rawValue");
     if (result[0].rawValue === api + "seats/reserve") {
-      console.log(api + "seats/reserve")
       mutate({ data: { username: session?.username || "" } });
       setOpen(false);
     } else {
@@ -53,9 +54,9 @@ const Menu = () => {
   ////////////////////////////////////////// useEffects ////////////////////////////
 
   useEffect(() => {
-
+    if (process.env.NODE_ENV === "development") {
       eruda.init();
-    
+    }
   }, []);
 
   useEffect(() => {
@@ -75,7 +76,7 @@ const Menu = () => {
 
   useEffect(() => {
     if (isError) {
-      if (error && error.response?.status === 400) {
+      if (error.response.status === 400) {
         toast(<Toast message="در حال حاضر صندلی رزر شده دارید." />, {
           bodyStyle: {
             background: "#fee4e2",
@@ -87,7 +88,7 @@ const Menu = () => {
           },
           autoClose: 1500,
         });
-      } else if (error && error.response?.status === 404) {
+      } else if (error.response.status === 404) {
         toast(<Toast message="کاربر با این شناسه وجود ندارد" />, {
           bodyStyle: {
             background: "#fee4e2",
