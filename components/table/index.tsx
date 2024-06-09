@@ -28,7 +28,6 @@ const Table = () => {
   const session = client?.user as SessionType | undefined;
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [sTime, setSTime] = useState("");
   ////////////////////////////////////////////////////////////////// mutations //////////////////////////////////////////////////////////////////////////
 
   const {
@@ -98,7 +97,6 @@ const Table = () => {
       setLoading(false);
       console.log("Real-time seat data:", data);
       setSeats(data.seats);
-      setSTime(data.serverTime);
       let index;
       const user = data.seats.find((item: SeatType, i: number) => {
         index = i;
@@ -109,7 +107,6 @@ const Table = () => {
       console.log(data, "dataaa");
       if (user && index !== null && index !== undefined) {
         setSelf(data.seats[index]);
-        setSTime(data.seats[index].startTime);
       } else {
         setSelf(null);
       }
@@ -289,8 +286,8 @@ const Table = () => {
       <div className="p-[15px] bg-[#f6f6f6] dark:bg-[#161b26] rounded-[8px] main_height_container">
         {!self ? (
           <>
-            <div className="flex justify-between items-center w-full">
-              <p className="text-bulutBrand500 font-[500] text-[14px] dark:text-[#8ec0ff]">
+            <div className="flex justify-center items-center w-full">
+              {/* <p className="text-bulutBrand500 font-[500] text-[14px] dark:text-[#8ec0ff]">
                 {`${timeLeft.hours
                   .toString()
                   .padStart(2, "0")}:${timeLeft.minutes
@@ -298,10 +295,16 @@ const Table = () => {
                   .padStart(2, "0")}:${timeLeft.seconds
                   .toString()
                   .padStart(2, "0")}`}
-              </p>
-              <p className="text-grayText font-[500] text-[12px] dark:text-grayIron50">
-                یکم دیگه صبر کنی یه جا خالی میشه
-              </p>
+              </p> */}
+              {seats.length < 10 ? (
+                <p className="text-grayText font-[500] text-[12px] dark:text-grayIron50 text-center">
+                  میتونی بری بشینی غذات رو میل کنی
+                </p>
+              ) : (
+                <p className="text-grayText font-[500] text-[12px] dark:text-grayIron50">
+                  یکم دیگه صبر کنی یه جا خالی میشه
+                </p>
+              )}
             </div>
             <div className="border-[1px] mt-[16px] dark:border-transparent" />
             <div className="flex flex-col items-center justify-center h-full mt-[25px] main_height relative">
@@ -313,10 +316,10 @@ const Table = () => {
         ) : (
           <div className="flex flex-col items-center justify-center h-full mt-[32px] main_height relative">
             <div className="h-[220px] flex flex-col items-center">
-              <p className="rtl font-[500] dark:text-[#dfdfdf]">
-                زمان تموم شدن ناهارت!
+              <p className="rtl font-[500] dark:text-[#dfdfdf] text-center">
+                صرف غذات که تموم شد دکمه پایین رو بزن
               </p>
-              <p className="rtl font-[500] text-bulutBrand500 dark:text-bulutBrand500 mt-[16px]">
+              {/* <p className="rtl font-[500] text-bulutBrand500 dark:text-bulutBrand500 mt-[16px]">
                 {`${timeLeft.hours
                   .toString()
                   .padStart(2, "0")}:${timeLeft.minutes
@@ -324,7 +327,7 @@ const Table = () => {
                   .padStart(2, "0")}:${timeLeft.seconds
                   .toString()
                   .padStart(2, "0")}`}
-              </p>
+              </p> */}
               <div id="animation" className="w-[250px] h-[250px]">
                 <Lottie
                   options={defaultOptions}
