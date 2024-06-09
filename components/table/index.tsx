@@ -19,6 +19,7 @@ import PrimaryBtn from "../button";
 import { useTerminate } from "@/hooks/useMutations";
 import { toast } from "react-toastify";
 import Toast from "../toast";
+import { useGetTime } from "@/hooks/useQueries";
 
 const SOCKET_SERVER_URL = api;
 
@@ -26,6 +27,7 @@ const Table = () => {
   const { data: client } = useSession();
   const session = client?.user as SessionType | undefined;
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   ////////////////////////////////////////////////////////////////// mutations //////////////////////////////////////////////////////////////////////////
 
   const {
@@ -37,6 +39,19 @@ const Table = () => {
     error: errorInstance,
   }: any = useTerminate();
 
+  ////////////////////////////////////////////////////////////////// queries //////////////////////////////////////////////////////////////////////////
+  const {
+    data: timeData,
+    isSuccess: timeIsSuccess,
+    isError: timeIsError,
+    isLoading: timeIsLoading,
+    error: timeError,
+    refetch: refetchTime,
+  } = useGetTime({
+    data: {
+      enabled: mounted,
+    },
+  });
   ////////////////////////////////////////////////////////////////// hooks and var //////////////////////////////////////////////////////////////////////////
   let defaultOptions = {
     loop: true,
@@ -48,7 +63,6 @@ const Table = () => {
   };
   const [error, setError] = useState("");
   const [self, setSelf] = useState<any>(null);
-  const [mounted, setMounted] = useState(false);
   const [randNums, setRandNums] = useState<number[]>([]);
   const [seats, setSeats] = useState<SeatType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -82,14 +96,17 @@ const Table = () => {
     socket.on("seatData", (data) => {
       setLoading(false);
       console.log("Real-time seat data:", data);
-      setSeats(data);
-
-      const user = data.find(
-        (item: SeatType) => item.username === session?.username
-      );
-
-      if (user) {
-        setSelf(user);
+      setSeats(data.seats);
+      let index;
+      const user = data.seats.find((item: SeatType, i: number) => {
+        index = i;
+        if (item.username === session?.username) {
+          return item;
+        }
+      });
+      console.log(index);
+      if (user && index !== null && index !== undefined) {
+        setSelf(data.seats[index]);
       } else {
         setSelf(null);
       }
@@ -109,19 +126,13 @@ const Table = () => {
   useEffect(() => {
     if (seats.length > 0 && seats[0].endTime) {
       const initializeTimer = () => {
-        const currentTime = moment().valueOf();
-        const serverTime = moment(seats[0].startTime).valueOf();
-        const selfServerTime = self ? moment(self.startTime).valueOf() : null;
-        const offsetSelf = selfServerTime ? selfServerTime - currentTime : null;
-        const offset = serverTime - currentTime;
-        const adjustedTime = moment().add(offset, "milliseconds").valueOf();
-        const adjustedSelfTime = moment()
-          .add(offsetSelf, "milliseconds")
-          .valueOf();
-        if (self) {
-          setTimeLeft(calculateTimeLeft(self.endTime, adjustedSelfTime));
+        const currentTime = moment(seats[0].serverTime).valueOf();
+        const currentTimeSelf = self ? moment(self.serverTime).valueOf() : null;
+        console.log(self, "self");
+        if (self && currentTimeSelf) {
+          setTimeLeft(calculateTimeLeft(self.endTime, currentTimeSelf));
         } else {
-          setTimeLeft(calculateTimeLeft(seats[0].endTime, adjustedTime));
+          setTimeLeft(calculateTimeLeft(seats[0].endTime, currentTime));
         }
       };
 

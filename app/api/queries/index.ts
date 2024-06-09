@@ -13,3 +13,8 @@ export const getProfilePic = async (data: Data) => {
     .get(api + `uploads/profilePicture/${data.data.id}`)
     .then((res) => res.data);
 };
+
+export const getTime = async () => {
+  const axiosInstance = await createAxiosInstance();
+  return await axiosInstance.get(api + `seats/getTime`).then((res) => res.data);
+};
