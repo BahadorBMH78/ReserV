@@ -110,12 +110,14 @@ const Table = () => {
     if (seats.length > 0 && seats[0].endTime) {
       const initializeTimer = () => {
         const currentTime = moment().valueOf();
-        const serverTime = moment(seats[0].startTime).valueOf()
-        const selfServerTime = moment(self.startTime).valueOf()
-        const offset = serverTime - currentTime
-        const adjustedTime = moment().add(offset, "milliseconds").valueOf()
-        const offsetSelf = selfServerTime - currentTime
-        const adjustedSelfTime = moment().add(offsetSelf, "milliseconds").valueOf()
+        const serverTime = moment(seats[0].startTime).valueOf();
+        const selfServerTime = self ? moment(self.startTime).valueOf() : null;
+        const offsetSelf = selfServerTime ? selfServerTime - currentTime : null;
+        const offset = serverTime - currentTime;
+        const adjustedTime = moment().add(offset, "milliseconds").valueOf();
+        const adjustedSelfTime = moment()
+          .add(offsetSelf, "milliseconds")
+          .valueOf();
         if (self) {
           setTimeLeft(calculateTimeLeft(self.endTime, adjustedSelfTime));
         } else {
