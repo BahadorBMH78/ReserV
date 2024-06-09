@@ -28,6 +28,7 @@ const Table = () => {
   const session = client?.user as SessionType | undefined;
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [sTime, setSTime] = useState("");
   ////////////////////////////////////////////////////////////////// mutations //////////////////////////////////////////////////////////////////////////
 
   const {
@@ -97,6 +98,7 @@ const Table = () => {
       setLoading(false);
       console.log("Real-time seat data:", data);
       setSeats(data.seats);
+      setSTime(data.serverTime);
       let index;
       const user = data.seats.find((item: SeatType, i: number) => {
         index = i;
@@ -104,9 +106,10 @@ const Table = () => {
           return item;
         }
       });
-      console.log(index);
+      console.log(data, "dataaa");
       if (user && index !== null && index !== undefined) {
         setSelf(data.seats[index]);
+        setSTime(data.seats[index].startTime);
       } else {
         setSelf(null);
       }
@@ -126,13 +129,21 @@ const Table = () => {
   useEffect(() => {
     if (seats.length > 0 && seats[0].endTime) {
       const initializeTimer = () => {
-        const currentTime = moment(seats[0].serverTime).valueOf();
-        const currentTimeSelf = self ? moment(self.serverTime).valueOf() : null;
-        console.log(self, "self");
-        if (self && currentTimeSelf) {
-          setTimeLeft(calculateTimeLeft(self.endTime, currentTimeSelf));
+        const currentServerTime = moment(seats[0].startTime).valueOf();
+        const currentServerTimeSelf = self
+          ? moment(self.startTime).valueOf()
+          : null;
+        let current = moment().valueOf();
+        const offset = current - currentServerTime;
+        let currentTime = moment().valueOf() + offset;
+        let offsetSelf = currentServerTimeSelf
+          ? current - currentServerTimeSelf
+          : null;
+        let currentSelf = offsetSelf ? moment().valueOf() + offsetSelf : null;
+        if (self && currentSelf) {
+          setTimeLeft(calculateTimeLeft(self.endTime, currentSelf));
         } else {
-          setTimeLeft(calculateTimeLeft(seats[0].endTime, currentTime));
+          setTimeLeft(calculateTimeLeft(seats[0].endTime, current));
         }
       };
 
