@@ -143,7 +143,7 @@ const Table = () => {
         if (self && currentSelf) {
           setTimeLeft(calculateTimeLeft(self.endTime, currentSelf));
         } else {
-          setTimeLeft(calculateTimeLeft(seats[0].endTime, current));
+          setTimeLeft(calculateTimeLeft(seats[0].endTime, currentTime));
         }
       };
 
