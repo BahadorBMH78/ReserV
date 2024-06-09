@@ -94,6 +94,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .fui-avatar-main-container .fui-avatar-image {
   height: 100%;
+  object-fit: cover;
 }
 
 .react-responsive-modal-modal {
