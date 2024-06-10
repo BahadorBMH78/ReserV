@@ -69,8 +69,13 @@ body {
   height: 100svh;
   font-family: "Kalameh" !important;
 }
+
 .rtl {
   direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
 }
 
 input[type="number"]::-webkit-inner-spin-button,

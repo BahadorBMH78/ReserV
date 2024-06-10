@@ -20,6 +20,8 @@ import { useTerminate } from "@/hooks/useMutations";
 import { toast } from "react-toastify";
 import Toast from "../toast";
 import { useGetTime } from "@/hooks/useQueries";
+import ArrowDown from "@/public/arrowDown.svg";
+import Tom from "@/public/tom.jpg";
 
 const SOCKET_SERVER_URL = api;
 
@@ -283,10 +285,10 @@ const Table = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="p-[15px] bg-[#f6f6f6] dark:bg-[#161b26] rounded-[8px] main_height_container">
+      <div className="p-[15px] bg-[#f6f6f6] dark:bg-[#161b26] rounded-[8px] main_height_container relative">
         {!self ? (
           <>
-            <div className="flex justify-center items-center w-full">
+            <div className="flex justify-between items-center w-full">
               {/* <p className="text-bulutBrand500 font-[500] text-[14px] dark:text-[#8ec0ff]">
                 {`${timeLeft.hours
                   .toString()
@@ -296,17 +298,33 @@ const Table = () => {
                   .toString()
                   .padStart(2, "0")}`}
               </p> */}
-              {seats.length < 10 ? (
+              <p className="text-bulutBrand500 font-[700] text-[12px] dark:text-grayIron50">
+                هیچکس تو صف نیست
+              </p>
+              <div className="flex items-center gap-[4px] rtl">
                 <p className="text-grayText font-[500] text-[12px] dark:text-grayIron50 text-center">
-                  میتونی بری بشینی غذات رو میل کنی
+                  آشپزخونه رو ببین
                 </p>
-              ) : (
-                <p className="text-grayText font-[500] text-[12px] dark:text-grayIron50">
-                  یکم دیگه صبر کنی یه جا خالی میشه
-                </p>
-              )}
+                <Image src={ArrowDown} alt="arrow-down" />
+              </div>
             </div>
             <div className="border-[1px] mt-[16px] dark:border-transparent" />
+            <div className="absolute gap-[16px] overflow-scroll flex flex-col z-50 top-[58px] bg-white w-[calc(100%-30px)] h-[316px] left-[50%] translate-x-[-50%] shadow-[0px_2px_6px_0px_rgba(0,0,0,0.25)] pt-[16px] px-[16px]">
+              <div className="bg-[#f0f1f1] gap-[8px] flex items-center py-[8px] px-[16px] rtl w-full min-h-[40px] h-[40px] rounded-[8px]">
+                <div className="w-[26px] h-[26px] bg-white flex items-center justify-center rounded-[100px]">
+                  <Image
+                    src={Tom}
+                    alt="tom"
+                    width={24}
+                    height={24}
+                    className="rounded-[100px]"
+                  />
+                </div>
+                <p className="text-[#61646c] text-[12px] font-[400]">
+                  بهادر محمدحسینی
+                </p>
+              </div>
+            </div>
             <div className="flex flex-col items-center justify-center h-full mt-[25px] main_height relative">
               {resolvedTheme === "light"
                 ? table(randNums)
