@@ -3,7 +3,7 @@ import Image from "next/image";
 import Smile from "@/public/smile.svg";
 import Angry from "@/public/angry.svg";
 import Happy from "@/public/happy.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useTheme } from "next-themes";
 import io from "socket.io-client";
 import { api } from "@/app/api/api";
@@ -22,6 +22,7 @@ import Toast from "../toast";
 import { useGetTime } from "@/hooks/useQueries";
 import ArrowDown from "@/public/arrowDown.svg";
 import Tom from "@/public/tom.jpg";
+import { MyContext } from "@/app/providers";
 
 const SOCKET_SERVER_URL = api;
 
@@ -30,6 +31,8 @@ const Table = () => {
   const session = client?.user as SessionType | undefined;
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const context = useContext(MyContext);
+  const { seats, setSeats, self, setSelf } = context;
   ////////////////////////////////////////////////////////////////// mutations //////////////////////////////////////////////////////////////////////////
 
   const {
@@ -64,10 +67,11 @@ const Table = () => {
     },
   };
   const [error, setError] = useState("");
-  const [self, setSelf] = useState<any>(null);
+  // const [self, setSelf] = useState<any>(null);
   const [randNums, setRandNums] = useState<number[]>([]);
-  const [seats, setSeats] = useState<SeatType[]>([]);
+  // const [seats, setSeats] = useState<SeatType[]>([]);
   const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
   const [timeLeft, setTimeLeft] = useState<TimerType>({
     hours: 0,
     minutes: 0,
@@ -286,10 +290,8 @@ const Table = () => {
   return (
     <div className="flex flex-col w-full">
       <div className="p-[15px] bg-[#f6f6f6] dark:bg-[#161b26] rounded-[8px] main_height_container relative">
-        {!self ? (
-          <>
-            <div className="flex justify-between items-center w-full">
-              {/* <p className="text-bulutBrand500 font-[500] text-[14px] dark:text-[#8ec0ff]">
+        <div className="flex justify-between items-center w-full">
+          {/* <p className="text-bulutBrand500 font-[500] text-[14px] dark:text-[#8ec0ff]">
                 {`${timeLeft.hours
                   .toString()
                   .padStart(2, "0")}:${timeLeft.minutes
@@ -298,102 +300,51 @@ const Table = () => {
                   .toString()
                   .padStart(2, "0")}`}
               </p> */}
-              <p className="text-bulutBrand500 font-[700] text-[12px] dark:text-grayIron50">
-                هیچکس تو صف نیست
-              </p>
-              <div className="flex items-center gap-[4px] rtl">
-                <p className="text-grayText font-[500] text-[12px] dark:text-grayIron50 text-center">
-                  آشپزخونه رو ببین
-                </p>
-                <Image src={ArrowDown} alt="arrow-down" />
-              </div>
-            </div>
-            <div className="border-[1px] mt-[16px] dark:border-transparent" />
-            <div className="absolute gap-[16px] overflow-scroll flex flex-col z-50 top-[58px] bg-white w-[calc(100%-30px)] h-[316px] left-[50%] translate-x-[-50%] shadow-[0px_2px_6px_0px_rgba(0,0,0,0.25)] pt-[16px] px-[16px]">
-              <div className="bg-[#f0f1f1] gap-[8px] flex items-center py-[8px] px-[16px] rtl w-full min-h-[40px] h-[40px] rounded-[8px]">
-                <div className="w-[26px] h-[26px] bg-white flex items-center justify-center rounded-[100px]">
-                  <Image
-                    src={Tom}
-                    alt="tom"
-                    width={24}
-                    height={24}
-                    className="rounded-[100px]"
-                  />
-                </div>
-                <p className="text-[#61646c] text-[12px] font-[400]">
-                  بهادر محمدحسینی
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col items-center justify-center h-full mt-[25px] main_height relative">
-              {resolvedTheme === "light"
-                ? table(randNums)
-                : tableDark(randNums)}
-            </div>
-          </>
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full mt-[32px] main_height relative">
-            <div className="h-[220px] flex flex-col items-center">
-              <p className="rtl font-[500] dark:text-[#dfdfdf] text-center">
-                صرف غذات که تموم شد دکمه پایین رو بزن
-              </p>
-              {/* <p className="rtl font-[500] text-bulutBrand500 dark:text-bulutBrand500 mt-[16px]">
-                {`${timeLeft.hours
-                  .toString()
-                  .padStart(2, "0")}:${timeLeft.minutes
-                  .toString()
-                  .padStart(2, "0")}:${timeLeft.seconds
-                  .toString()
-                  .padStart(2, "0")}`}
-              </p> */}
-              <div id="animation" className="w-[250px] h-[250px]">
-                <Lottie
-                  options={defaultOptions}
-                  height={"100%"}
-                  width={"100%"}
+          <p className="text-bulutBrand500 font-[700] text-[12px] dark:text-grayIron50">
+            هیچکس تو صف نیست
+          </p>
+          <div
+            className="flex items-center gap-[4px] rtl"
+            onClick={() => setShow(!show)}
+          >
+            <p className="text-grayText font-[500] text-[12px] dark:text-grayIron50 text-center">
+              آشپزخونه رو ببین
+            </p>
+            <Image src={ArrowDown} alt="arrow-down" />
+          </div>
+        </div>
+        <div className="border-[1px] mt-[16px] dark:border-transparent" />
+        <div
+          className={`absolute transition-all ${
+            show ? "opacity-100 visible" : "opacity-0 invisible"
+          } gap-[16px] overflow-scroll flex flex-col z-50 top-[58px] bg-white w-[calc(100%-30px)] h-[316px] left-[50%] translate-x-[-50%] shadow-[0px_2px_6px_0px_rgba(0,0,0,0.25)] pt-[16px] px-[16px]`}
+        >
+          {seats.length > 0 ? (
+            <div className="bg-[#f0f1f1] gap-[8px] flex items-center py-[8px] px-[16px] rtl w-full min-h-[40px] h-[40px] rounded-[8px]">
+              <div className="w-[26px] h-[26px] bg-white flex items-center justify-center rounded-[100px]">
+                <Image
+                  src={Tom}
+                  alt="tom"
+                  width={24}
+                  height={24}
+                  className="rounded-[100px]"
                 />
               </div>
+              <p className="text-[#61646c] text-[12px] font-[400]">
+                بهادر محمدحسینی
+              </p>
             </div>
-          </div>
-        )}
-      </div>
-      {!self ? (
-        <div
-          className={`h-[40px] ${
-            seats.length <= 5
-              ? "bg-bulutBrand100"
-              : seats.length > 5 && seats.length < 8
-              ? "bg-warning100"
-              : "bg-[#FEE4E2]"
-          } w-full mt-[15px] rounded-[8px] gap-[10px] flex justify-center items-center`}
-        >
-          {seats.length <= 5 ? (
-            <>
-              {" "}
-              <p className="text-warning600 font-[500] text-[14px] rtl">
-                وقت ناهاره {session?.firstname} جان!
-              </p>
-              <Image src={Happy} alt="Happy" />
-            </>
-          ) : seats.length > 5 && seats.length < 8 ? (
-            <>
-              {" "}
-              <p className="text-warning600 font-[500] text-[14px] rtl">
-                میتونی بری ناهار بخوری {session?.firstname} جان!
-              </p>
-              <Image src={Smile} alt="Smile" />
-            </>
           ) : (
-            <>
-              {" "}
-              <p className="text-warning600 font-[500] text-[14px] rtl">
-                {session?.firstname} وضعیت آشپزخونه داغونه!
-              </p>
-              <Image src={Angry} alt="Angry" />
-            </>
+            <div className="flex items-center justify-center relative w-full rtl">
+              <p className="w-full">کسی تو آشپزخونه نیست.</p>
+            </div>
           )}
         </div>
-      ) : (
+        <div className="flex flex-col items-center justify-center h-full mt-[25px] main_height relative">
+          {resolvedTheme === "light" ? table(randNums) : tableDark(randNums)}
+        </div>
+      </div>
+      {/* {self && (
         <div className="w-full h-full relative mt-[15px]">
           <PrimaryBtn
             title="تموم شدم"
@@ -401,7 +352,7 @@ const Table = () => {
             loading={isLoading}
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

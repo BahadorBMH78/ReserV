@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import { Qr, Home, Profile } from "./svg";
 import Link from "next/link";
 import { Modal } from "react-responsive-modal";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Scanner, IDetectedBarcode } from "@yudiel/react-qr-scanner";
 import eruda from "eruda";
 import { useReserve } from "@/hooks/useMutations";
@@ -13,6 +13,8 @@ import { api } from "@/app/api/api";
 import { toast } from "react-toastify";
 import Toast from "../toast";
 import { signOut } from "next-auth/react";
+import { useTerminate } from "@/hooks/useMutations";
+import { MyContext } from "@/app/providers";
 
 const Menu = () => {
   ////////////////////////////////////////// hooks ///////////////////////////////////////////
@@ -20,13 +22,24 @@ const Menu = () => {
   const session = client?.user as SessionType | undefined;
   const [open, setOpen] = useState(false);
   const path = usePathname();
+  const context = useContext(MyContext);
+  const { self, setSelf } = context;
   ////////////////////////////////////////// mutations ////////////////////////////////////////
   const { mutate, data, isSuccess, isError, isLoading, error }: any =
     useReserve();
 
+  const {
+    mutate: terminateMutate,
+    isSuccess: terminateIsSuccess,
+    isError: terminateIsError,
+    isLoading: terminateIsLoading,
+    error: errorInstance,
+  }: any = useTerminate();
+
   ////////////////////////////////////////// functions ////////////////////////////////////////
 
-  const onOpenModal = () => setOpen(true);
+  const onOpenModal = () =>
+    mutate({ data: { username: session?.username || "" } });
   const onCloseModal = () => setOpen(false);
 
   const onResult = (result: Array<IDetectedBarcode>) => {
@@ -48,6 +61,16 @@ const Menu = () => {
       });
     }
   };
+
+  const terminateSession = () => {
+    terminateMutate({ data: { username: session?.username } });
+  };
+
+  const ajam = () => {
+    if(self) {
+      terminateSession()
+    }
+  }
 
   ////////////////////////////////////////// useEffects ////////////////////////////
 
@@ -113,6 +136,37 @@ const Menu = () => {
     }
   }, [isError]);
 
+  useEffect(() => {
+    if (terminateIsSuccess) {
+      toast(<Toast message="تایم صرف غذای شما لغو گردید." />, {
+        bodyStyle: {
+          background: "#E2FEE4",
+          border: "1px solid #38F044",
+          borderRadius: "6px",
+          height: 50,
+          fontFamily: "Kalameh",
+        },
+        autoClose: 3000,
+      });
+    }
+  }, [terminateIsSuccess]);
+
+  useEffect(() => {
+    if (terminateIsError) {
+      toast(<Toast message="مشکلی در لغو تایم به وجود آمده است." />, {
+        bodyStyle: {
+          background: "#fee4e2",
+          border: "1px solid #f04438",
+          borderRadius: "6px",
+          height: 50,
+          fontFamily: "Kalameh",
+          width: "100%",
+        },
+        autoClose: 3000,
+      });
+    }
+  }, [terminateIsError]);
+
   ////////////////////////////////////////// render ////////////////////////////
 
   if (path === "/login" || path === "/error") {
@@ -120,30 +174,34 @@ const Menu = () => {
   }
 
   return (
-    <footer className="flex-shrink-0 flex absolute justify-between text-black dark:bg-[#161b26] bg-baseWhite w-full bottom-0 shadow-[0px_-2px_6px_0px_rgba(0,0,0,0.25)] h-[48px] rounded-[10px_10px_0px_0px] py-[10px] px-[24px]">
+    <footer className="flex-shrink-0 flex absolute justify-between text-black dark:bg-[#161b26] bg-baseWhite w-full bottom-0 shadow-[0px_-2px_6px_0px_rgba(0,0,0,0.25)] h-[48px] rounded-[10px_10px_0px_0px] py-[10px] px-[50px]">
       <Link className="contents" href="/">
         <div className="flex flex-col justify-end items-center relative">
-          <div
-            className={`bg-bulutBrand500 w-[4px] h-[4px] rounded-[100%] absolute top-[0px] left-[12px] ml-[-2px] ${
-              path === "/" ? "opacity-100" : "opacity-0"
-            }`}
-          />
           <div className="w-[70px]">{Home(path === "/")}</div>
         </div>
       </Link>
-      <div
-        className="flex flex-col justify-end items-center relative sm:opacity-50 sm:pointer-events-none md:opacity-50 md:pointer-events-none"
-        onClick={onOpenModal}
-      >
-        <div className="w-[70px] flex justify-center">{Qr(path === "/qr")}</div>
+      <div className="w-full flex items-center justify-center h-fit mt-[-35px]">
+        <div
+          className="p-[4px] shadow-[0px_-5px_10px_-6px_rgba(0,0,0,0.25)] z-50 rounded-[30px] dark:bg-[#161b26] bg-white h-full w-[131px] flex justify-center items-center relative"
+          onClick={() => ajam()}
+        >
+          {!self ? (
+            <div className="w-full bg-bulutBrand500 h-[48px] rounded-[100px] flex justify-center items-center">
+              <p className="text-white text-[14px] font-[700]">آجام</p>
+            </div>
+          ) : (
+            <div className="w-full bg-[#f04438] rtl h-[48px] rounded-[100px] flex justify-center items-center">
+              {terminateIsLoading ? (
+                <div className="loader"></div>
+              ) : (
+                <p className="text-white text-[14px] font-[700]">تموم شدم!</p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       <Link className="contents" href="/profile">
         <div className="flex flex-col justify-end items-center relative">
-          <div
-            className={`bg-bulutBrand500 w-[4px] h-[4px] rounded-[100%] absolute top-[0px] right-[9px] ml-[-2px] ${
-              path === "/profile" ? "opacity-100" : "opacity-0"
-            }`}
-          />
           <div className="w-[70px] flex justify-end">
             {Profile(path === "/profile")}
           </div>

@@ -1,8 +1,9 @@
 "use client";
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
-import { ReactNode } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { SeatType } from "@/types/seats";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,12 +23,18 @@ type Props = {
   session?: any;
 };
 
+export const MyContext = createContext<any>(undefined);
+
 export function Providers({ children, session }: Props) {
+  const [seats, setSeats] = useState<SeatType[]>([]);
+  const [self, setSelf] = useState<any>(null);
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <MyContext.Provider value={{ seats, setSeats, setSelf, self }}>
+            {children}
+          </MyContext.Provider>
         </ThemeProvider>
       </QueryClientProvider>
     </SessionProvider>
