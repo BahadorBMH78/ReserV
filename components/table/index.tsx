@@ -1,8 +1,5 @@
 "use client";
 import Image from "next/image";
-import Smile from "@/public/smile.svg";
-import Angry from "@/public/angry.svg";
-import Happy from "@/public/happy.svg";
 import { useEffect, useState, useContext } from "react";
 import { useTheme } from "next-themes";
 import io from "socket.io-client";
@@ -10,18 +7,14 @@ import { api } from "@/app/api/api";
 import { SeatType, TimerType } from "@/types/seats";
 import AnimationLight from "@/public/Animation - light.json";
 import Animation from "@/public/loader.json";
-import Lottie from "react-lottie";
 import { table, tableDark } from "./svg";
 import moment from "moment";
 import { useSession } from "next-auth/react";
 import { SessionType } from "@/types/next-auth";
-import PrimaryBtn from "../button";
 import { useTerminate } from "@/hooks/useMutations";
 import { toast } from "react-toastify";
 import Toast from "../toast";
-import { useGetTime } from "@/hooks/useQueries";
 import ArrowDown from "@/public/arrowDown.svg";
-import Tom from "@/public/tom.jpg";
 import { MyContext } from "@/app/providers";
 
 const SOCKET_SERVER_URL = api;
@@ -32,7 +25,7 @@ const Table = () => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const context = useContext(MyContext);
-  const { seats, setSeats, self, setSelf } = context;
+  const { seats, setSeats, self, setSelf, queue, setQueue } = context;
   ////////////////////////////////////////////////////////////////// mutations //////////////////////////////////////////////////////////////////////////
 
   const {
@@ -45,18 +38,6 @@ const Table = () => {
   }: any = useTerminate();
 
   ////////////////////////////////////////////////////////////////// queries //////////////////////////////////////////////////////////////////////////
-  const {
-    data: timeData,
-    isSuccess: timeIsSuccess,
-    isError: timeIsError,
-    isLoading: timeIsLoading,
-    error: timeError,
-    refetch: refetchTime,
-  } = useGetTime({
-    data: {
-      enabled: mounted,
-    },
-  });
   ////////////////////////////////////////////////////////////////// hooks and var //////////////////////////////////////////////////////////////////////////
   let defaultOptions = {
     loop: true,
@@ -103,6 +84,7 @@ const Table = () => {
       setLoading(false);
       console.log("Real-time seat data:", data);
       setSeats(data.seats);
+      setQueue(data.queue);
       let index;
       const user = data.seats.find((item: SeatType, i: number) => {
         index = i;
@@ -300,9 +282,18 @@ const Table = () => {
                   .toString()
                   .padStart(2, "0")}`}
               </p> */}
-          <p className="text-bulutBrand500 font-[700] text-[12px] dark:text-grayIron50">
-            هیچکس تو صف نیست
-          </p>
+          {queue.length > 0 ? (
+            <p className="text-error600 font-[700] text-[12px] rtl">
+              <span className="font-[800] text-[12px] pl-[5px]">
+                {queue && queue.length}
+              </span>
+              نفر تو صف هستن
+            </p>
+          ) : (
+            <p className="text-bulutBrand500 font-[700] text-[12px] dark:text-grayIron50">
+              هیچکس تو صف نیست
+            </p>
+          )}
           <div
             className="flex items-center gap-[4px] rtl"
             onClick={() => setShow(!show)}
@@ -317,23 +308,27 @@ const Table = () => {
         <div
           className={`absolute transition-all ${
             show ? "opacity-100 visible" : "opacity-0 invisible"
-          } gap-[16px] overflow-scroll flex flex-col z-50 top-[58px] bg-white w-[calc(100%-30px)] h-[316px] left-[50%] translate-x-[-50%] shadow-[0px_2px_6px_0px_rgba(0,0,0,0.25)] pt-[16px] px-[16px]`}
+          } gap-[16px] overflow-auto flex flex-col z-50 top-[58px] dark:bg-black bg-white w-[calc(100%-30px)] h-[316px] left-[50%] translate-x-[-50%] shadow-[0px_2px_6px_0px_rgba(0,0,0,0.25)] pt-[16px] px-[16px]`}
         >
           {seats.length > 0 ? (
-            <div className="bg-[#f0f1f1] gap-[8px] flex items-center py-[8px] px-[16px] rtl w-full min-h-[40px] h-[40px] rounded-[8px]">
-              <div className="w-[26px] h-[26px] bg-white flex items-center justify-center rounded-[100px]">
-                <Image
-                  src={Tom}
-                  alt="tom"
-                  width={24}
-                  height={24}
-                  className="rounded-[100px]"
-                />
-              </div>
-              <p className="text-[#61646c] text-[12px] font-[400]">
-                بهادر محمدحسینی
-              </p>
-            </div>
+            seats.map((person: any, index: number) => {
+              return (
+                <div className="bg-[#f0f1f1] dark:bg-[#161b26] gap-[8px] flex items-center py-[8px] px-[16px] rtl w-full min-h-[40px] h-[40px] rounded-[8px]">
+                  <div className="w-[26px] h-[26px] bg-white flex items-center justify-center rounded-[100px]">
+                    <Image
+                      src={`${api}uploads/profilePicture/${person.id}`}
+                      alt="profile Pic"
+                      width={24}
+                      height={24}
+                      className="rounded-[100px]"
+                    />
+                  </div>
+                  <p className="text-[#61646c] dark:text-white text-[12px] font-[400]">
+                    بهادر محمدحسینی
+                  </p>
+                </div>
+              );
+            })
           ) : (
             <div className="flex items-center justify-center relative w-full rtl">
               <p className="w-full">کسی تو آشپزخونه نیست.</p>

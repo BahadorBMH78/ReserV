@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { Qr, Home, Profile } from "./svg";
+import { Home, Profile } from "./svg";
 import Link from "next/link";
 import { Modal } from "react-responsive-modal";
 import { useContext, useEffect, useState } from "react";
@@ -15,6 +15,7 @@ import Toast from "../toast";
 import { signOut } from "next-auth/react";
 import { useTerminate } from "@/hooks/useMutations";
 import { MyContext } from "@/app/providers";
+import { useEnqueue } from "@/hooks/useMutations";
 
 const Menu = () => {
   ////////////////////////////////////////// hooks ///////////////////////////////////////////
@@ -29,6 +30,14 @@ const Menu = () => {
     useReserve();
 
   const {
+    mutate: enqueueMutate,
+    isSuccess: enqueueIsSuccess,
+    isError: enqueueIsError,
+    isLoading: enqueueIsLoading,
+    error: enqueueError,
+  }: any = useEnqueue();
+
+  const {
     mutate: terminateMutate,
     isSuccess: terminateIsSuccess,
     isError: terminateIsError,
@@ -38,8 +47,6 @@ const Menu = () => {
 
   ////////////////////////////////////////// functions ////////////////////////////////////////
 
-  const onOpenModal = () =>
-    mutate({ data: { username: session?.username || "" } });
   const onCloseModal = () => setOpen(false);
 
   const onResult = (result: Array<IDetectedBarcode>) => {
@@ -67,10 +74,12 @@ const Menu = () => {
   };
 
   const ajam = () => {
-    if(self) {
-      terminateSession()
+    if (self) {
+      terminateSession();
+    } else {
+      enqueueMutate({ data: { username: session?.username || "" } });
     }
-  }
+  };
 
   ////////////////////////////////////////// useEffects ////////////////////////////
 
@@ -167,6 +176,51 @@ const Menu = () => {
     }
   }, [terminateIsError]);
 
+  useEffect(() => {
+    if (enqueueIsSuccess) {
+      toast(<Toast message="شما در صف قرار گرفتید." />, {
+        bodyStyle: {
+          background: "#E2FEE4",
+          border: "1px solid #38F044",
+          borderRadius: "6px",
+          height: 50,
+          fontFamily: "Kalameh",
+        },
+        autoClose: 3000,
+      });
+    }
+  }, [enqueueIsSuccess]);
+
+  useEffect(() => {
+    if (enqueueIsError) {
+      if (enqueueError && enqueueError.response?.status === 400) {
+        toast(<Toast message="در حال حاضر شما در صف قرار گرفته اید" />, {
+          bodyStyle: {
+            background: "#fee4e2",
+            border: "1px solid #f04438",
+            borderRadius: "6px",
+            height: 50,
+            fontFamily: "Kalameh",
+            width: "100%",
+          },
+          autoClose: 3000,
+        });
+      } else {
+        toast(<Toast message="مشکلی در ارسال درخواست به وجود آمده است." />, {
+          bodyStyle: {
+            background: "#fee4e2",
+            border: "1px solid #f04438",
+            borderRadius: "6px",
+            height: 50,
+            fontFamily: "Kalameh",
+            width: "100%",
+          },
+          autoClose: 3000,
+        });
+      }
+    }
+  }, [enqueueIsError]);
+
   ////////////////////////////////////////// render ////////////////////////////
 
   if (path === "/login" || path === "/error") {
@@ -191,7 +245,7 @@ const Menu = () => {
             </div>
           ) : (
             <div className="w-full bg-[#f04438] rtl h-[48px] rounded-[100px] flex justify-center items-center">
-              {terminateIsLoading ? (
+              {terminateIsLoading || enqueueIsLoading ? (
                 <div className="loader"></div>
               ) : (
                 <p className="text-white text-[14px] font-[700]">تموم شدم!</p>

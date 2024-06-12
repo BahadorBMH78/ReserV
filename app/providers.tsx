@@ -28,11 +28,12 @@ export const MyContext = createContext<any>(undefined);
 export function Providers({ children, session }: Props) {
   const [seats, setSeats] = useState<SeatType[]>([]);
   const [self, setSelf] = useState<any>(null);
+  const [queue, setQueue] = useState<any[]>([]);
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <MyContext.Provider value={{ seats, setSeats, setSelf, self }}>
+          <MyContext.Provider value={{ seats, setSeats, setSelf, self, queue, setQueue }}>
             {children}
           </MyContext.Provider>
         </ThemeProvider>

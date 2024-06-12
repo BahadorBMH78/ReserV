@@ -14,6 +14,13 @@ export const reserve = async (data: Data) => {
     .then((res) => res.data);
 };
 
+export const enqueue = async (data: Data) => {
+  const axiosInstance = await createAxiosInstance();
+  return await axiosInstance
+    .post(api + "seats/enqueue", data.data)
+    .then((res) => res.data);
+};
+
 export const terminate = async (data: Data) => {
   const axiosInstance = await createAxiosInstance();
   return await axiosInstance

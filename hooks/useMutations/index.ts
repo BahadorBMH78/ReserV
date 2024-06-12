@@ -1,4 +1,4 @@
-import { reserve, terminate, profilePic } from "@/app/api/mutations";
+import { reserve, terminate, profilePic, enqueue } from "@/app/api/mutations";
 import { useMutation } from "react-query";
 
 type Reserve = {
@@ -9,6 +9,10 @@ type Reserve = {
 
 export function useReserve() {
   return useMutation((data: Reserve) => reserve(data));
+}
+
+export function useEnqueue() {
+  return useMutation((data: Reserve) => enqueue(data));
 }
 
 export function useTerminate() {

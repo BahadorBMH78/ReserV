@@ -19,8 +19,7 @@ import { signOut } from "next-auth/react";
 const Header = () => {
   const { data: client } = useSession();
   const session = client?.user as SessionType | undefined;
-  const { mutate, data, isSuccess, isError, isLoading, error }: any =
-    useReserve();
+  const { mutate, isSuccess, isError, isLoading, error }: any = useReserve();
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -31,14 +30,12 @@ const Header = () => {
 
   ////////////////////////////////////////// functions ////////////////////////////////////////
 
-  const onOpenModal = () =>
-    mutate({ data: { username: session?.username || "" } });
+  const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
   const onResult = (result: Array<IDetectedBarcode>) => {
     if (result[0].rawValue === api + "seats/reserve") {
       mutate({ data: { username: session?.username || "" } });
-      setOpen(false);
     } else {
       setOpen(false);
       toast(<Toast message="کد اسکن شده با کد آشپزخانه تطابق ندارد" />, {
@@ -66,12 +63,13 @@ const Header = () => {
         },
         autoClose: 3000,
       });
+      setOpen(false);
     }
   }, [isSuccess]);
 
   useEffect(() => {
     if (isError) {
-      if (error.response.status === 400) {
+      if (error && error.response?.status === 400) {
         toast(<Toast message="در حال حاضر صندلی رزر شده دارید." />, {
           bodyStyle: {
             background: "#fee4e2",
@@ -83,7 +81,7 @@ const Header = () => {
           },
           autoClose: 3000,
         });
-      } else if (error.response.status === 404) {
+      } else if (error.response?.status === 404) {
         toast(<Toast message="کاربر با این شناسه وجود ندارد" />, {
           bodyStyle: {
             background: "#fee4e2",
@@ -107,6 +105,7 @@ const Header = () => {
           autoClose: 3000,
         });
       }
+      setOpen(false);
     }
   }, [isError]);
   if (path === "/login") return null;
@@ -138,11 +137,16 @@ const Header = () => {
           className="w-full h-full flex fle-col items-center justify-center"
           id="qrContainer"
         >
-          <Scanner
-            constraints={{ facingMode: "environment" }}
-            scanDelay={2000}
-            onScan={(result) => onResult(result)}
-          />
+          {isLoading ? (
+            <div className="Qrloader"></div>
+          ) : (
+            <Scanner
+              constraints={{ facingMode: "environment" }}
+              scanDelay={2000}
+              paused={isLoading}
+              onScan={(result) => onResult(result)}
+            />
+          )}
         </div>
       </Modal>
     </div>
