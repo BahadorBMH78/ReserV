@@ -30,7 +30,7 @@ const Header = () => {
 
   ////////////////////////////////////////// functions ////////////////////////////////////////
 
-  const onOpenModal = () => mutate({ data: { username: session?.username || "" } });;
+  const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
   const onResult = (result: Array<IDetectedBarcode>) => {
