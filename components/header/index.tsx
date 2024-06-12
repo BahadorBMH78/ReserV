@@ -114,17 +114,23 @@ const Header = () => {
   }
   return (
     <div className="px-[24px] pt-[32px] flex-shrink-0">
-      <header className="flex justify-between items-center sm:px-8">
+      <header
+        className={`flex ${
+          path === "/" ? "justify-between" : "justify-center"
+        } items-center sm:px-8`}
+      >
         <Image
           src={resolvedTheme === "light" ? BulutIcon : BulutDarkIcon}
           alt="bulutIcon"
         />
-        <div
-          className="bg-bulutBrand500 rounded-[8px] w-[24px] h-[24px] flex items-center justify-center"
-          onClick={onOpenModal}
-        >
-          <Image src={Qr} alt="Qr" />
-        </div>
+        {path === "/" && (
+          <div
+            className="bg-bulutBrand500 rounded-[8px] w-[24px] h-[24px] flex items-center justify-center"
+            onClick={onOpenModal}
+          >
+            <Image src={Qr} alt="Qr" />
+          </div>
+        )}
       </header>
       <Modal
         open={open}
