@@ -16,11 +16,13 @@ import { toast } from "react-toastify";
 import Toast from "../toast";
 import ArrowDown from "@/public/arrowDown.svg";
 import { MyContext } from "@/app/providers";
+import Kitchen from "@/public/kitchen.svg";
 
 const SOCKET_SERVER_URL = api;
 
 const Table = () => {
   const { data: client } = useSession();
+  const [imageError, setImageError] = useState<any>({});
   const session = client?.user as SessionType | undefined;
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -203,6 +205,10 @@ const Table = () => {
   }, [isError]);
   ////////////////////////////////////////////////////////////////// functions //////////////////////////////////////////////////////////////////////////
 
+  const handleImageError = (index: any) => {
+    setImageError((prev: any) => ({ ...prev, [index]: true }));
+  };
+
   function calculateTimeLeft(
     endTime: string,
     referenceTime: number
@@ -283,14 +289,14 @@ const Table = () => {
                   .padStart(2, "0")}`}
               </p> */}
           {queue.length > 0 ? (
-            <p className="text-error600 font-[700] text-[12px] rtl">
-              <span className="font-[800] text-[12px] pl-[5px]">
+            <p className="text-error600 font-[700] text-[14px] rtl">
+              <span className="font-[800] text-[14px] pl-[5px]">
                 {queue && queue.length}
               </span>
               نفر تو صف هستن
             </p>
           ) : (
-            <p className="text-bulutBrand500 font-[700] text-[12px] dark:text-grayIron50">
+            <p className="text-bulutBrand500 font-[700] text-[14px] dark:text-grayIron50">
               هیچکس تو صف نیست
             </p>
           )}
@@ -298,10 +304,10 @@ const Table = () => {
             className="flex items-center gap-[4px] rtl"
             onClick={() => setShow(!show)}
           >
-            <p className="text-grayText font-[500] text-[12px] dark:text-grayIron50 text-center">
+            <p className="text-grayText font-[700] text-[14px] dark:text-grayIron50 text-center">
               آشپزخونه رو ببین
             </p>
-            <Image src={ArrowDown} alt="arrow-down" />
+            <Image src={ArrowDown} alt="arrow-down" className={`${show ? "rotate-180" : "rotate-0"} transition-all`} />
           </div>
         </div>
         <div className="border-[1px] mt-[16px] dark:border-transparent" />
@@ -313,25 +319,30 @@ const Table = () => {
           {seats.length > 0 ? (
             seats.map((person: any, index: number) => {
               return (
-                <div key={index} className="bg-[#f0f1f1] dark:bg-[#161b26] gap-[8px] flex items-center py-[8px] px-[16px] rtl w-full min-h-[40px] h-[40px] rounded-[8px]">
+                <div
+                  key={index}
+                  className="bg-[#f0f1f1] dark:bg-[#161b26] gap-[8px] flex items-center py-[8px] px-[16px] rtl w-full min-h-[40px] h-[40px] rounded-[8px]"
+                >
                   <div className="w-[26px] h-[26px] bg-white flex items-center justify-center rounded-[100px]">
                     <Image
-                      src={`${api}uploads/profilePicture/${person.id}`}
+                      src={`/defAvatar.svg`}
                       alt="profile Pic"
                       width={24}
                       height={24}
+                      onError={() => handleImageError(index)}
                       className="rounded-[100px]"
                     />
                   </div>
                   <p className="text-[#61646c] dark:text-white text-[12px] font-[400]">
-                    بهادر محمدحسینی
+                    {person.name}
                   </p>
                 </div>
               );
             })
           ) : (
-            <div className="flex items-center justify-center relative w-full rtl">
-              <p className="w-full">کسی تو آشپزخونه نیست.</p>
+            <div className="flex gap-[10px] justify-center relative w-full h-full items-center">
+              <p className="text-center text-[#cecfd2] text-[14px] rtl">آشپزخونه خالیه!</p>
+              <Image src={Kitchen} alt="Kitchen" />
             </div>
           )}
         </div>

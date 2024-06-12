@@ -91,7 +91,7 @@ const Menu = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast(<Toast message="صندلی با موفقیت رزرو شد" />, {
+      toast(<Toast message="صندلیت پر شد" />, {
         bodyStyle: {
           background: "#E2FEE4",
           border: "1px solid #38F044",
@@ -147,7 +147,7 @@ const Menu = () => {
 
   useEffect(() => {
     if (terminateIsSuccess) {
-      toast(<Toast message="تایم صرف غذای شما لغو گردید." />, {
+      toast(<Toast message="صندلیت خالی شد" />, {
         bodyStyle: {
           background: "#E2FEE4",
           border: "1px solid #38F044",
@@ -178,7 +178,7 @@ const Menu = () => {
 
   useEffect(() => {
     if (enqueueIsSuccess) {
-      toast(<Toast message="شما در صف قرار گرفتید." />, {
+      toast(<Toast message="رفتی تو صف" />, {
         bodyStyle: {
           background: "#E2FEE4",
           border: "1px solid #38F044",
@@ -194,7 +194,7 @@ const Menu = () => {
   useEffect(() => {
     if (enqueueIsError) {
       if (enqueueError && enqueueError.response?.status === 400) {
-        toast(<Toast message="در حال حاضر شما در صف قرار گرفته اید" />, {
+        toast(<Toast message="در حال حاضر تو صف هستی" />, {
           bodyStyle: {
             background: "#fee4e2",
             border: "1px solid #f04438",
@@ -241,7 +241,11 @@ const Menu = () => {
         >
           {!self ? (
             <div className="w-full bg-bulutBrand500 h-[48px] rounded-[100px] flex justify-center items-center">
-              <p className="text-white text-[14px] font-[700]">آجام</p>
+              {terminateIsLoading || enqueueIsLoading ? (
+                <div className="loader"></div>
+              ) : (
+                <p className="text-white text-[14px] font-[700]">آجام</p>
+              )}
             </div>
           ) : (
             <div className="w-full bg-[#f04438] rtl h-[48px] rounded-[100px] flex justify-center items-center">

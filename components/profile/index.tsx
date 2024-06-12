@@ -59,7 +59,7 @@ const Profile = () => {
         `${api}uploads/profilePicture/${session?.id}${uniqueParam}`
       );
       console.log("sadasd");
-      window.location.reload()
+      window.location.reload();
       toast(<Toast message="تصویر پروفایل شما با موفقیت تغییر یافت." />, {
         bodyStyle: {
           background: "#E2FEE4",
@@ -102,8 +102,13 @@ const Profile = () => {
           key={imageKey}
           isLoading={isLoading}
           src={imageSource}
-          
-          onError={() => setImageSource("/tom.jpg")}
+          onError={() =>
+            setImageSource(
+              resolvedTheme === "light"
+                ? "/defAvatarLight.svg"
+                : "/defAvatar.svg"
+            )
+          }
           alt="Avatar"
           width={100}
           height={100}

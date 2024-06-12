@@ -30,7 +30,7 @@ const Header = () => {
 
   ////////////////////////////////////////// functions ////////////////////////////////////////
 
-  const onOpenModal = () => setOpen(true);
+  const onOpenModal = () => mutate({ data: { username: session?.username || "" } });;
   const onCloseModal = () => setOpen(false);
 
   const onResult = (result: Array<IDetectedBarcode>) => {
@@ -125,10 +125,10 @@ const Header = () => {
         />
         {path === "/" && (
           <div
-            className="bg-bulutBrand500 rounded-[8px] w-[24px] h-[24px] flex items-center justify-center"
+            className="rounded-[8px] w-[24px] h-[24px] flex items-center justify-center"
             onClick={onOpenModal}
           >
-            <Image src={Qr} alt="Qr" />
+            <Image src={Qr} alt="Qr" width={25} height={25} />
           </div>
         )}
       </header>
