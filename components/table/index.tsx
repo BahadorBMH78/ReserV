@@ -313,7 +313,7 @@ const Table = () => {
           {seats.length > 0 ? (
             seats.map((person: any, index: number) => {
               return (
-                <div className="bg-[#f0f1f1] dark:bg-[#161b26] gap-[8px] flex items-center py-[8px] px-[16px] rtl w-full min-h-[40px] h-[40px] rounded-[8px]">
+                <div key={index} className="bg-[#f0f1f1] dark:bg-[#161b26] gap-[8px] flex items-center py-[8px] px-[16px] rtl w-full min-h-[40px] h-[40px] rounded-[8px]">
                   <div className="w-[26px] h-[26px] bg-white flex items-center justify-center rounded-[100px]">
                     <Image
                       src={`${api}uploads/profilePicture/${person.id}`}
