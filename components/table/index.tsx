@@ -7,7 +7,7 @@ import { api } from "@/app/api/api";
 import { SeatType, TimerType } from "@/types/seats";
 import AnimationLight from "@/public/Animation - light.json";
 import Animation from "@/public/loader.json";
-import { table, tableDark } from "./svg";
+import { TableSVG } from "./svg";
 import moment from "moment";
 import { useSession } from "next-auth/react";
 import { SessionType } from "@/types/next-auth";
@@ -347,7 +347,7 @@ const Table = () => {
           )}
         </div>
         <div className="flex flex-col items-center justify-center h-full mt-[25px] main_height relative">
-          {resolvedTheme === "light" ? table(randNums) : tableDark(randNums)}
+          <TableSVG theme={resolvedTheme} seats={seats} nums={randNums} session={session} />
         </div>
       </div>
       {/* {self && (

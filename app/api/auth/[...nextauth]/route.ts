@@ -24,11 +24,13 @@ const authOptions: NextAuthOptions = {
             password: credentials.password,
           }),
         });
+        const data = await response.json();
 
         if (!response.ok) {
-          return null;
+          throw new Error(
+            `${response.status}:${data.message || "Login failed"}`
+          );
         }
-        const data = await response.json();
 
         if (data) {
           console.log(data, "Response data");
@@ -64,7 +66,7 @@ const authOptions: NextAuthOptions = {
           token: token.token,
           profilePicture: token.profilePicture,
           firstname: token.firstname,
-          lastname: token.lastname 
+          lastname: token.lastname,
         };
       }
       return session;

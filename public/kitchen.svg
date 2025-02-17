@@ -1,7 +1,7 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="15.5" y="2" width="3" height="8" rx="1.5" stroke="#CECFD2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M17 10V15.6667" stroke="#CECFD2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M14 15.6666H20C20.5523 15.6666 21 16.1144 21 16.6666V17C21 19.2091 19.2091 21 17 21V21C14.7909 21 13 19.2091 13 17V16.6666C13 16.1143 13.4477 15.6666 14 15.6666V15.6666Z" stroke="#CECFD2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path fillRule="evenodd" clipRule="evenodd" d="M14 15.6666H20C20.5523 15.6666 21 16.1144 21 16.6666V17C21 19.2091 19.2091 21 17 21V21C14.7909 21 13 19.2091 13 17V16.6666C13 16.1143 13.4477 15.6666 14 15.6666V15.6666Z" stroke="#CECFD2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M6.5 10V13" stroke="#CECFD2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="5" y="2" width="3" height="8" rx="1.5" stroke="#CECFD2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M8 5H15.5" stroke="#CECFD2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

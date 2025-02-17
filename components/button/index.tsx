@@ -1,9 +1,11 @@
 import { BtnType } from "@/types/button";
-const PrimaryBtn = ({ title, onClick, loading }: BtnType) => {
+const PrimaryBtn = ({ title, onClick, loading, type }: BtnType) => {
+  console.log(type, "type")
   return (
     <button
-      onClick={() => onClick()}
+      onClick={() => onClick && onClick()}
       disabled={loading}
+      type={type}
       className="h-[48px] w-full bg-bluePrimary rounded-[8px] flex items-center justify-center"
     >
       {loading ? (

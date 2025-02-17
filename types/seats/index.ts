@@ -3,6 +3,7 @@ export type SeatType = {
     endTime: string;
     username: string;
     serverTime: string;
+    seatNumber: string;
 }
 
 export type TimerType = {
