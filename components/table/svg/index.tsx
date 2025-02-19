@@ -396,7 +396,7 @@ export const TableSVG = ({
   }
   return (
     <svg
-      width="250"
+      width="300"
       height="490"
       viewBox="0 0 225 490"
       fill="none"
