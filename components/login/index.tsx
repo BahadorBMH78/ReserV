@@ -10,6 +10,7 @@ import Toast from "../toast";
 import { useRouter } from "next/navigation";
 import Vector from "@/public/vector.svg";
 import VectorDark from "@/public/vector-dark.svg";
+import people from "@/assets/people.svg"
 import { useTheme } from "next-themes";
 import { FieldValues, useForm } from "react-hook-form";
 
@@ -60,7 +61,7 @@ const LoginForm = () => {
   return (
     <>
       <Image
-        src={resolvedTheme === "light" ? Vector : VectorDark}
+        src={resolvedTheme === "light" ? people : people}
         className="mt-0"
         alt="bulut"
       />

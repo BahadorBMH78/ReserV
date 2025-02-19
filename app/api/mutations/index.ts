@@ -7,6 +7,8 @@ type Data = {
   };
 };
 
+const API = process.env.NEXT_PUBLIC_API
+
 export const reserve = async (data: Data) => {
   const axiosInstance = await createAxiosInstance();
   return await axiosInstance

@@ -11,8 +11,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 
 export const metadata: Metadata = {
-  title: "Bulut Kitchen",
-  description: "Bulut Kitchen",
+  title: "ReserV",
+  description: "ReserV App",
 };
 
 export default async function RootLayout({

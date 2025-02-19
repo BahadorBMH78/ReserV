@@ -240,11 +240,11 @@ const Menu = () => {
           onClick={() => ajam()}
         >
           {!self ? (
-            <div className="w-full bg-bulutBrand500 h-[48px] rounded-[100px] flex justify-center items-center">
+            <div className="w-full bg-brandColor h-[48px] rounded-[100px] flex justify-center items-center">
               {terminateIsLoading || enqueueIsLoading ? (
                 <div className="loader"></div>
               ) : (
-                <p className="text-white text-[14px] font-[700]">آجام</p>
+                <p className="text-white text-[14px] font-[700]">برو تو صف</p>
               )}
             </div>
           ) : (
@@ -252,7 +252,7 @@ const Menu = () => {
               {terminateIsLoading || enqueueIsLoading ? (
                 <div className="loader"></div>
               ) : (
-                <p className="text-white text-[14px] font-[700]">تموم شدم!</p>
+                <p className="text-white text-[14px] font-[700]">اتمام!</p>
               )}
             </div>
           )}

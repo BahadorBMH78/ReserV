@@ -141,7 +141,7 @@ const Profile = () => {
               checked={resolvedTheme === "dark" ? true : false}
               checkedIcon={false}
               uncheckedIcon={false}
-              onColor="#236cff"
+              onColor="#005f56"
               height={22}
               width={36}
             />

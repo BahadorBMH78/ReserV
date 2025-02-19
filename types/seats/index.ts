@@ -4,6 +4,8 @@ export type SeatType = {
     username: string;
     serverTime: string;
     seatNumber: string;
+    id: string;
+    name: string;
 }
 
 export type TimerType = {

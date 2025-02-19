@@ -6,7 +6,7 @@ const PrimaryBtn = ({ title, onClick, loading, type }: BtnType) => {
       onClick={() => onClick && onClick()}
       disabled={loading}
       type={type}
-      className="h-[48px] w-full bg-bluePrimary rounded-[8px] flex items-center justify-center"
+      className="h-[48px] w-full bg-brandColor rounded-[8px] flex items-center justify-center"
     >
       {loading ? (
         <div className="loader"></div>
