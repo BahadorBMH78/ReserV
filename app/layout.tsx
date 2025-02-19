@@ -13,6 +13,11 @@ import "react-toastify/ReactToastify.css";
 export const metadata: Metadata = {
   title: "ReserV",
   description: "ReserV App",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default async function RootLayout({

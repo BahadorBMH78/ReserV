@@ -237,7 +237,7 @@ const Menu = () => {
       </Link>
       <div className="w-full flex items-center justify-center h-fit mt-[-35px]">
         <div
-          className="p-[4px] shadow-[0px_-5px_10px_-6px_rgba(0,0,0,0.25)] z-50 rounded-[30px] dark:bg-[#161b26] bg-white h-full w-[131px] flex justify-center items-center relative"
+          className="p-[4px] shadow-[0px_-5px_10px_-6px_rgba(0,0,0,0.25)] z-50 rounded-[30px] dark:bg-[#161b26] bg-white h-full w-[131px] flex justify-center items-center relative cursor-pointer"
           onClick={() => ajam()}
         >
           {!self ? (
