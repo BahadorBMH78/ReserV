@@ -114,9 +114,9 @@ export const TableSVG = ({
           className="cursor-pointer"
         >
           <circle
-            cx="12"
+            cx="16"
             cy="21.5"
-            r="20"
+            r="24"
             fill={lightColor("1")}
             stroke="white"
             strokeWidth="2"
@@ -124,7 +124,7 @@ export const TableSVG = ({
 
           <text
             x="12"
-            y="21.5"
+            y="25.5"
             dominantBaseline="middle"
             textAnchor="middle"
             fontSize="12"
@@ -139,12 +139,11 @@ export const TableSVG = ({
           transform="matrix(1 1.74846e-07 1.74846e-07 -1 7.15381 126)"
           onClick={() => reservation("2")}
           className="cursor-pointer"
-
         >
           <circle
             cx="0"
             cy="21.5"
-            r="20"
+            r="24"
             fill={lightColor("2")}
             stroke="white"
             strokeWidth="2"
@@ -167,12 +166,11 @@ export const TableSVG = ({
           transform="matrix(1 1.74846e-07 1.74846e-07 -1 7.15381 219.333)"
           onClick={() => reservation("3")}
           className="cursor-pointer"
-
         >
           <circle
             cx="0"
             cy="21.5"
-            r="20"
+            r="24"
             fill={lightColor("3")}
             stroke="white"
             strokeWidth="2"
@@ -199,12 +197,11 @@ export const TableSVG = ({
           transform="matrix(1 1.74846e-07 1.74846e-07 -1 7.15381 312.667)"
           onClick={() => reservation("4")}
           className="cursor-pointer"
-
         >
           <circle
             cx="0"
             cy="21.5"
-            r="20"
+            r="24"
             fill={lightColor("4")}
             stroke="white"
             strokeWidth="2"
@@ -227,12 +224,11 @@ export const TableSVG = ({
           transform="matrix(1 1.74846e-07 1.74846e-07 -1 7.15381 406)"
           onClick={() => reservation("5")}
           className="cursor-pointer"
-
         >
           <circle
             cx="0"
             cy="21.5"
-            r="20"
+            r="24"
             fill={lightColor("5")}
             stroke="white"
             strokeWidth="2"
@@ -256,7 +252,7 @@ export const TableSVG = ({
           x="39"
           y="52"
           width="147"
-          height="390"
+          height="385"
           rx="16"
           fill="#D9D9D9"
         />
@@ -264,12 +260,11 @@ export const TableSVG = ({
           transform="matrix(1 0 0 -1 216.846 125)"
           onClick={() => reservation("10")}
           className="cursor-pointer"
-
         >
           <circle
             cx="0"
             cy="21.5"
-            r="20"
+            r="24"
             fill={lightColor("10")}
             stroke="white"
             strokeWidth="2"
@@ -292,12 +287,11 @@ export const TableSVG = ({
           transform="matrix(-1 0 0 -1 216.846 218.0)"
           onClick={() => reservation("9")}
           className="cursor-pointer"
-
         >
           <circle
             cx="0"
             cy="21.5"
-            r="20"
+            r="24"
             fill={lightColor("9")}
             stroke="white"
             strokeWidth="2"
@@ -320,12 +314,11 @@ export const TableSVG = ({
           transform="matrix(-1 0 0 -1 216.846 312.0)"
           onClick={() => reservation("8")}
           className="cursor-pointer"
-
         >
           <circle
             cx="0"
             cy="21.5"
-            r="20"
+            r="24"
             fill={lightColor("8")}
             stroke="white"
             strokeWidth="2"
@@ -348,12 +341,11 @@ export const TableSVG = ({
           transform="matrix(-1 0 0 -1 216.846 406.0)"
           onClick={() => reservation("7")}
           className="cursor-pointer"
-
         >
           <circle
             cx="0"
             cy="21.5"
-            r="20"
+            r="24"
             fill={lightColor("7")}
             stroke="white"
             strokeWidth="2"
@@ -376,12 +368,11 @@ export const TableSVG = ({
           transform="matrix(-4.37114e-08 1 1 4.37114e-08 90.5 470.3846)"
           onClick={() => reservation("6")}
           className="cursor-pointer"
-
         >
           <circle
-            cx="0"
+            cx="-5"
             cy="21.5"
-            r="20"
+            r="24"
             fill={lightColor("6")}
             stroke="white"
             strokeWidth="2"
@@ -389,7 +380,7 @@ export const TableSVG = ({
 
           <text
             x="0"
-            y="21.5"
+            y="17.5"
             dominantBaseline="middle"
             textAnchor="middle"
             fontSize="12"
@@ -407,7 +398,7 @@ export const TableSVG = ({
     <svg
       width="250"
       height="490"
-      viewBox="0 0 225 500"
+      viewBox="0 0 225 490"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -415,12 +406,11 @@ export const TableSVG = ({
         transform="matrix(-4.37114e-08 1 1 4.37114e-08 90.5 7.3846)"
         onClick={() => reservation("1")}
         className="cursor-pointer"
-
       >
         <circle
-          cx="16"
+          cx="17"
           cy="21.5"
-          r="20"
+          r="24"
           fill={darkColor("1")}
           stroke="white"
           strokeWidth="2"
@@ -443,12 +433,11 @@ export const TableSVG = ({
         transform="matrix(1 1.74846e-07 1.74846e-07 -1 7.15381 126)"
         onClick={() => reservation("2")}
         className="cursor-pointer"
-
       >
         <circle
           cx="0"
           cy="21.5"
-          r="20"
+          r="24"
           fill={darkColor("2")}
           stroke="white"
           strokeWidth="2"
@@ -471,12 +460,11 @@ export const TableSVG = ({
         transform="matrix(1 1.74846e-07 1.74846e-07 -1 7.15381 219.333)"
         onClick={() => reservation("3")}
         className="cursor-pointer"
-
       >
         <circle
           cx="0"
           cy="21.5"
-          r="20"
+          r="24"
           fill={darkColor("3")}
           stroke="white"
           strokeWidth="2"
@@ -503,12 +491,11 @@ export const TableSVG = ({
         transform="matrix(1 1.74846e-07 1.74846e-07 -1 7.15381 312.667)"
         onClick={() => reservation("4")}
         className="cursor-pointer"
-
       >
         <circle
           cx="0"
           cy="21.5"
-          r="20"
+          r="24"
           fill={darkColor("4")}
           stroke="white"
           strokeWidth="2"
@@ -528,15 +515,14 @@ export const TableSVG = ({
         </text>
       </g>
       <g
-                className="cursor-pointer"
-
+        className="cursor-pointer"
         transform="matrix(1 1.74846e-07 1.74846e-07 -1 7.15381 406)"
         onClick={() => reservation("5")}
       >
         <circle
           cx="0"
           cy="21.5"
-          r="20"
+          r="24"
           fill={darkColor("5")}
           stroke="white"
           strokeWidth="2"
@@ -560,20 +546,19 @@ export const TableSVG = ({
         x="39"
         y="52"
         width="147"
-        height="390"
+        height="385"
         rx="16"
         fill="#D9D9D9"
       />
       <g
-                className="cursor-pointer"
-
+        className="cursor-pointer"
         transform="matrix(1 0 0 -1 216.846 125)"
         onClick={() => reservation("10")}
       >
         <circle
           cx="0"
           cy="21.5"
-          r="20"
+          r="24"
           fill={darkColor("10")}
           stroke="white"
           strokeWidth="2"
@@ -593,15 +578,14 @@ export const TableSVG = ({
         </text>
       </g>
       <g
-                className="cursor-pointer"
-
+        className="cursor-pointer"
         transform="matrix(-1 0 0 -1 216.846 218.0)"
         onClick={() => reservation("9")}
       >
         <circle
           cx="0"
           cy="21.5"
-          r="20"
+          r="24"
           fill={darkColor("9")}
           stroke="white"
           strokeWidth="2"
@@ -621,15 +605,14 @@ export const TableSVG = ({
         </text>
       </g>
       <g
-                className="cursor-pointer"
-
+        className="cursor-pointer"
         transform="matrix(-1 0 0 -1 216.846 312.0)"
         onClick={() => reservation("8")}
       >
         <circle
           cx="0"
           cy="21.5"
-          r="20"
+          r="24"
           fill={darkColor("8")}
           stroke="white"
           strokeWidth="2"
@@ -649,15 +632,14 @@ export const TableSVG = ({
         </text>
       </g>
       <g
-                className="cursor-pointer"
-
+        className="cursor-pointer"
         transform="matrix(-1 0 0 -1 216.846 406.0)"
         onClick={() => reservation("7")}
       >
         <circle
           cx="0"
           cy="21.5"
-          r="20"
+          r="24"
           fill={darkColor("7")}
           stroke="white"
           strokeWidth="2"
@@ -677,15 +659,14 @@ export const TableSVG = ({
         </text>
       </g>
       <g
-                className="cursor-pointer"
-
         transform="matrix(-4.37114e-08 1 1 4.37114e-08 90.5 470.3846)"
         onClick={() => reservation("6")}
+        className="cursor-pointer"
       >
         <circle
-          cx="0"
+          cx="-5"
           cy="21.5"
-          r="20"
+          r="24"
           fill={darkColor("6")}
           stroke="white"
           strokeWidth="2"
@@ -693,7 +674,7 @@ export const TableSVG = ({
 
         <text
           x="0"
-          y="21.5"
+          y="17.5"
           dominantBaseline="middle"
           textAnchor="middle"
           fontSize="12"
