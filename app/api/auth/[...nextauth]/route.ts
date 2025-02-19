@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
-import { api } from "../../api";
 
+const API = process.env.NEXT_PUBLIC_API
 const authOptions: NextAuthOptions = {
   providers: [
     {
@@ -13,8 +13,8 @@ const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials: any) => {
-        console.log(api + "/users/login");
-        const response = await fetch(api + "users/login", {
+        console.log(API + "/users/login");
+        const response = await fetch(API + "users/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

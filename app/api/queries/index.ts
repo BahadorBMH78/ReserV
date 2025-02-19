@@ -1,5 +1,4 @@
 import { createAxiosInstance } from "@/hooks/helper";
-import { api } from "../api";
 
 type Data = {
   data: {
@@ -7,14 +6,16 @@ type Data = {
   };
 };
 
+const API = process.env.NEXT_PUBLIC_API
+
 export const getProfilePic = async (data: Data) => {
   const axiosInstance = await createAxiosInstance();
   return await axiosInstance
-    .get(api + `uploads/profilePicture/${data.data.id}`)
+    .get(API + `uploads/profilePicture/${data.data.id}`)
     .then((res) => res.data);
 };
 
 export const getTime = async () => {
   const axiosInstance = await createAxiosInstance();
-  return await axiosInstance.get(api + `seats/getTime`).then((res) => res.data);
+  return await axiosInstance.get(API + `seats/getTime`).then((res) => res.data);
 };

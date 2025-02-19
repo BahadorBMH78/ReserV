@@ -9,7 +9,6 @@ import eruda from "eruda";
 import { useReserve } from "@/hooks/useMutations";
 import { useSession } from "next-auth/react";
 import { SessionType } from "@/types/next-auth";
-import { api } from "@/app/api/api";
 import { toast } from "react-toastify";
 import Toast from "../toast";
 import { signOut } from "next-auth/react";
@@ -18,6 +17,7 @@ import { MyContext } from "@/app/providers";
 import { useEnqueue } from "@/hooks/useMutations";
 
 const Menu = () => {
+  const API = process.env.NEXT_PUBLIC_API
   ////////////////////////////////////////// hooks ///////////////////////////////////////////
   const { data: client } = useSession();
   const session = client?.user as SessionType | undefined;
@@ -50,7 +50,7 @@ const Menu = () => {
   const onCloseModal = () => setOpen(false);
 
   const onResult = (result: Array<IDetectedBarcode>) => {
-    if (result[0].rawValue === api + "seats/reserve") {
+    if (result[0].rawValue === API + "seats/reserve") {
       mutate({ data: { username: session?.username || "" } });
       setOpen(false);
     } else {
@@ -157,6 +157,7 @@ const Menu = () => {
         },
         autoClose: 3000,
       });
+      setSelf(null);
     }
   }, [terminateIsSuccess]);
 

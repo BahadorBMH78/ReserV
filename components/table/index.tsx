@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useEffect, useState, useContext } from "react";
 import { useTheme } from "next-themes";
 import io from "socket.io-client";
-import { api } from "@/app/api/api";
 import { SeatType, TimerType } from "@/types/seats";
 import AnimationLight from "@/public/Animation - light.json";
 import Animation from "@/public/loader.json";
@@ -18,9 +17,9 @@ import ArrowDown from "@/public/arrowDown.svg";
 import { MyContext } from "@/app/providers";
 import Kitchen from "@/public/kitchen.svg";
 
-const SOCKET_SERVER_URL = api;
 
 const Table = () => {
+  const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_API as string;
   const { data: client } = useSession();
   const [errorIndexes, setErrorIndexes] = useState<Record<number, boolean>>({});
   const session = client?.user as SessionType | undefined;
@@ -333,7 +332,7 @@ const Table = () => {
                         src={
                           errorIndexes[index]
                             ? "/defAvatar.svg"
-                            : `${api}uploads/profilePicture/${person.id}`
+                            : `${SOCKET_SERVER_URL}uploads/profilePicture/${person.id}`
                         }
                         alt="profile Pic"
                         width={24}
