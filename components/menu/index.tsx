@@ -229,7 +229,7 @@ const Menu = () => {
   }
 
   return (
-    <footer className="flex-shrink-0 flex absolute justify-between text-black dark:bg-[#161b26] bg-baseWhite w-full bottom-0 shadow-[0px_-2px_6px_0px_rgba(0,0,0,0.25)] h-[48px] rounded-[10px_10px_0px_0px] py-[10px] px-[50px]">
+    <footer className="select-none flex-shrink-0 flex absolute justify-between text-black dark:bg-[#161b26] bg-baseWhite w-full bottom-0 shadow-[0px_-2px_6px_0px_rgba(0,0,0,0.25)] h-[48px] rounded-[10px_10px_0px_0px] py-[10px] px-[50px]">
       <Link className="contents" href="/">
         <div className="flex flex-col justify-end items-center relative">
           <div className="w-[70px]">{Home(path === "/")}</div>
