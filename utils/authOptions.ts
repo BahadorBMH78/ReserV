@@ -14,7 +14,7 @@ const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials: any) => {
-        console.log(API + "/users/login");
+        console.log(API + "users/login");
         const response = await fetch(API + "users/login", {
           method: "POST",
           headers: {
