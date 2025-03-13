@@ -29,9 +29,13 @@
 ```bash
 git clone git@github.com:BahadorBMH78/reserv.git
 cd reserv
-2️⃣ Install Dependencies
+```
+### **2️⃣ Install Dependencies**  
+```bash
 npm install
-3️⃣ Run the Project
+```
+### **3️⃣ Run the Project**  
+```bash
 npm run dev
 ```
 
