@@ -40,3 +40,5 @@ This project is licensed under the MIT License.
 
 ## **📬 Contact** 
 - **📧 Email:** 78Bahador78@gmail.com
+- **💼 LinkedIn:** https://www.linkedin.com/in/bahador-codes/
+- **💼 Portfolio:** https://bahadorcodes.com/
