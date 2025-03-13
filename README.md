@@ -21,8 +21,8 @@
 
 ### **1️⃣ Clone the Repository**  
 ```bash
-git clone https://github.com/your-username/reserv-client.git
-cd reserv-client
+git clone git@github.com:BahadorBMH78/kitchen.git
+cd kitchen
 2️⃣ Install Dependencies
 npm install
 3️⃣ Run the Project
