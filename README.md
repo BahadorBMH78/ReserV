@@ -27,8 +27,8 @@
 
 ### **1️⃣ Clone the Repository**  
 ```bash
-git clone git@github.com:BahadorBMH78/kitchen.git
-cd kitchen
+git clone git@github.com:BahadorBMH78/reserv.git
+cd reserv
 2️⃣ Install Dependencies
 npm install
 3️⃣ Run the Project
