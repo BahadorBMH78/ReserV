@@ -5,11 +5,17 @@
 ## **🌐 Live Demo**  
 🔗 **[Try ReserV Live](https://reserv.bahadorcodes.com)**  
 
+## **📬 Login Credentials for Live Demo** 
+- username: 1, password: 1
+- username: 2, password: 2
+- ...
+- username: 10, password: 10
+
 ## **🛠 Tech Stack**  
 - **Framework:** React (with TypeScript)  
 - **Styling:** Tailwind CSS  
 - **State Management:** Context API / React Hooks  
-- **API Communication:** Fetch / Axios  
+- **API Communication:** Fetch / Socket.io  
 
 ## **✨ Features**  
 - ✅ **Interactive Seat Selection** – Users can reserve available seats dynamically  
